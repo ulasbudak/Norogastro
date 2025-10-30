@@ -60,7 +60,7 @@
 
         .hero-text {
             max-width: 900px;
-            margin: 20px 0 0 0;
+            margin: 20px auto 0;
             padding: 0; /* remove outer white panel */
             position: relative;
             z-index: 1;
@@ -89,13 +89,12 @@
         .slogan {
             font-size: 2.6rem; /* doubled */
             line-height: 1.15; /* even tighter for more horizontal layout */
-            max-width: none; /* allow full width */
-            width: 100%;
-            margin: 0; /* flush to the left */
+            max-width: 1600px; /* wider frame for more horizontal layout */
+            width: 98%;
+            margin: 0 auto;
             font-style: italic;
             background: rgba(245, 241, 232, 0.90);
-            padding: 28px 96px; /* keep padding */
-            padding-left: 0; /* touch left edge */
+            padding: 28px 96px; /* reduce vertical, increase horizontal padding */
             border-radius: 20px; /* larger corner radius */
             border-left: 10px solid #ffffff; /* thicker frame accent */
             box-shadow: 0 16px 40px rgba(0,0,0,0.25);
@@ -104,7 +103,7 @@
             animation: typewriter 1.4s steps(200, end) 300ms both, blink 0.7s infinite 2.1s;
             word-break: normal;
             hyphens: auto;
-            text-align: left;
+            text-align: center;
             overflow: hidden;
             white-space: normal;
             border-right: 3px solid #2b2b2b;
@@ -662,10 +661,12 @@
             .section h2 { font-size: 1.8rem; }
             
             /* Hero görsel ve sloganı daralt */
-            .hero { padding: 24px 12px; }
+            .hero { padding: 24px 0; text-align: left; }
+            .hero-content { margin-left: 0; }
             .hero-image { width: 100%; height: auto; overflow-x: hidden; }
-            .hero-image img { width: 100%; height: auto; max-width: 100%; margin: 0 auto; }
-            .slogan { width: 100%; max-width: none; margin: 24px 0 0 0; padding: 16px 18px; padding-left: 0; font-size: 1.05rem; text-align: left; }
+            .hero-image img { width: 100%; height: auto; max-width: 100%; margin: 0; display: block; }
+            .hero-text { margin-left: 0; }
+            .slogan { width: 100%; max-width: 100%; margin: 16px 0 0 0; padding: 16px 18px; font-size: 1.05rem; text-align: left; }
 
             /* Tam genişlikli görselleri daralt ve ortala */
             .image-container { width: 100%; max-width: 640px; margin: 40px auto 0; transform: none; margin-left: auto; overflow-x: hidden; }
