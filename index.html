@@ -676,7 +676,7 @@
             .hero-image img { width: 100%; height: auto; max-width: 100%; margin: 0; display: block; transform: none; object-fit: contain; object-position: left center; }
             @media (max-width: 768px) {
                 .hero-image { margin-left: 0 !important; padding-left: 0 !important; overflow: visible; }
-                .hero-image img { width: 100%; max-width: 100%; transform: translateX(-20px) scale(1.2); object-fit: contain; object-position: left center; margin: 0; display: block; }
+                .hero-image img { width: 100%; max-width: 100%; transform: translateX(-20px); object-fit: contain; object-position: left center; margin: 0; display: block; }
                 html, body { overflow-x: hidden; }
             }
             .hero-text { margin-left: 0; }
@@ -697,6 +697,9 @@
             .second-page #hizmetler .service-card { opacity: 1; transform: none; }
             .second-page #hizmetler .video-container { margin: 12px auto 8px; text-align: center; }
             .second-page, #hakkimizda, #hizmetler, #iletisim { overflow-x: hidden; }
+            /* 2. görsel (Hakkımızda içindeki) 1.2x ölçekle */
+            #hakkimizda .image-container { overflow: hidden; }
+            #hakkimizda .section-image { transform: scale(1.2); transform-origin: center; }
             nav.top-nav .menu {
                 position: absolute;
                 top: 64px;
