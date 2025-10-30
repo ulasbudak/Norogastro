@@ -547,6 +547,15 @@
             margin: 0;
         }
 
+        /* Gallery image (gorsel.jpeg) half size on desktop */
+        .gallery-image {
+            width: 50vw;
+            max-width: 50vw;
+            height: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         .image-container {
             text-align: center;
             margin: 140px 0 0 0;
@@ -676,6 +685,7 @@
             /* Tam genişlikli görselleri daralt ve ortala */
             .image-container { width: 100%; max-width: 640px; margin: 40px auto 0; transform: none; margin-left: auto; overflow-x: hidden; }
             .section-image { width: 100%; max-width: 100%; }
+            .gallery-image { width: 100%; max-width: 100%; }
 
             /* Video alanını daralt ve ortala */
             .video-container { width: 100%; max-width: 640px; margin: 24px auto 0; text-align: center; transform: none; margin-left: auto; overflow-x: hidden; }
@@ -885,7 +895,7 @@
             </div>
 
             <div class="image-container" style="margin-top: 40px;">
-                <img src="gorsel.jpeg" alt="Norogastro galeri görseli" class="section-image">
+                <img src="gorsel.jpeg" alt="Norogastro galeri görseli" class="section-image gallery-image">
             </div>
         </div>
 
