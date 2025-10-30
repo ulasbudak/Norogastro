@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Norogastro Üyelik - Nörogastronomi Uzmanlığı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #2c460a 0%, #4A5230 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(245, 241, 232, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #2b2b2b;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #4A5230;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(44, 70, 10, 0.9), rgba(74, 82, 48, 0.8));
+        }
+
+        .hero h1 {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero .price {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #f5f1e8;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #f5f1e8, #e8e0d0);
+            color: #2c460a;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(245, 241, 232, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 241, 232, 0.4);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: #f5f1e8;
+            color: #2b2b2b;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            color: #2c460a;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2c460a;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Plans Section */
+        .plans {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #2c460a, #4A5230);
+        }
+
+        .plans h2 {
+            text-align: center;
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .plans .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .plan-card {
+            background: rgba(245, 241, 232, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid rgba(245, 241, 232, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(245, 241, 232, 0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .plan-card.featured {
+            border-color: #f5f1e8;
+            background: rgba(245, 241, 232, 0.15);
+        }
+
+        .plan-card.featured::before {
+            content: "ÖNERİLEN";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f5f1e8;
+            color: #2c460a;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #f5f1e8;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #f5f1e8;
+        }
+
+        .plan-period {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .plan-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .plan-button {
+            background: linear-gradient(45deg, #f5f1e8, #e8e0d0);
+            color: #2c460a;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .plan-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 241, 232, 0.3);
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 80px 0;
+            background: #f5f1e8;
+            color: #2b2b2b;
+        }
+
+        .faq h2 {
+            text-align: center;
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            color: #2c460a;
+        }
+
+        .faq-item {
+            background: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: #f8f8f8;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #f0f0f0;
+        }
+
+        .faq-answer {
+            padding: 20px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a2f05;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: #f5f1e8;
+            margin-bottom: 15px;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #f5f1e8;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <img src="LOGO.png" alt="Norogastro" class="logo">
+                <nav class="nav-links">
+                    <a href="index.html">Ana Sayfa</a>
+                    <a href="index.html#hakkimizda">Hakkımızda</a>
+                    <a href="index.html#hizmetler">Hizmetler</a>
+                    <a href="index.html#iletisim">İletişim</a>
+                    <a href="uyelik-giris.html">Üye Girişi</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Nörogastronomi Uzmanlığına Katıl</h1>
+            <p class="subtitle">Bilimsel yaklaşımla gastronomi deneyimini dönüştür</p>
+            <p class="price">İlk 2 ay ücretsiz, sonra ayda ₺299</p>
+            <a href="#plans" class="cta-button">Üyeliğe Başla</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Nörogastronomi Uzmanlığının Avantajları</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Bilimsel Analiz</h3>
+                    <p>Yemeklerinizin beynin hangi bölümlerini nasıl etkilediğini bilimsel olarak analiz edin ve optimize edin.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🍳</div>
+                    <h3>Uzman Eğitimi</h3>
+                    <p>Mutfak ekibinizi nörogastro metodolojisiyle buluşturun ve özgün hizmet anlayışı geliştirin.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Veri Tabanlı Strateji</h3>
+                    <p>Tüketici algısını bilimsel verilerle ölçün ve inovatif çözümler geliştirin.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Deneyim Tasarımı</h3>
+                    <p>Duyusal farkındalık ve deneyim tasarımı süreçlerinde uzman desteği alın.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Marka Geliştirme</h3>
+                    <p>Markanızın hedeflerine uygun stratejik yol haritası geliştirin.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Kişisel Danışmanlık</h3>
+                    <p>Uzman ekibimizle birebir danışmanlık seansları ve sürekli destek alın.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plans Section -->
+    <section class="plans" id="plans">
+        <div class="container">
+            <h2>Size Uygun Planı Seçin</h2>
+            <p class="subtitle">Nörogastronomi uzmanlığında farklı seviyelerde hizmet alın</p>
+            
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <h3 class="plan-name">Başlangıç</h3>
+                    <div class="plan-price">₺199</div>
+                    <div class="plan-period">aylık</div>
+                    <ul class="plan-features">
+                        <li>✓ Temel nörogastro analizi</li>
+                        <li>✓ 2 saat danışmanlık</li>
+                        <li>✓ E-posta desteği</li>
+                        <li>✓ Temel raporlar</li>
+                    </ul>
+                    <button class="plan-button">Planı Seç</button>
+                </div>
+
+                <div class="plan-card featured">
+                    <h3 class="plan-name">Profesyonel</h3>
+                    <div class="plan-price">₺299</div>
+                    <div class="plan-period">aylık</div>
+                    <ul class="plan-features">
+                        <li>✓ Kapsamlı nörogastro analizi</li>
+                        <li>✓ 5 saat danışmanlık</li>
+                        <li>✓ Telefon + e-posta desteği</li>
+                        <li>✓ Detaylı raporlar</li>
+                        <li>✓ Menü tasarım desteği</li>
+                        <li>✓ Aylık değerlendirme</li>
+                    </ul>
+                    <button class="plan-button">Planı Seç</button>
+                </div>
+
+                <div class="plan-card">
+                    <h3 class="plan-name">Kurumsal</h3>
+                    <div class="plan-price">₺499</div>
+                    <div class="plan-period">aylık</div>
+                    <ul class="plan-features">
+                        <li>✓ Tam kapsamlı analiz</li>
+                        <li>✓ Sınırsız danışmanlık</li>
+                        <li>✓ 7/24 destek</li>
+                        <li>✓ Özel raporlar</li>
+                        <li>✓ Ekip eğitimleri</li>
+                        <li>✓ Marka stratejisi</li>
+                        <li>✓ Özel projeler</li>
+                    </ul>
+                    <button class="plan-button">Planı Seç</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2>Sıkça Sorulan Sorular</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Norogastro üyeliği nasıl çalışır?
+                </div>
+                <div class="faq-answer">
+                    Üyeliğinizle birlikte nörogastronomi uzmanlarımızdan danışmanlık hizmeti alabilir, yemeklerinizin bilimsel analizini yaptırabilir ve markanızı geliştirmek için stratejik destek alabilirsiniz. Her plan farklı seviyede hizmet sunar.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Üyeliğimi nasıl iptal edebilirim?
+                </div>
+                <div class="faq-answer">
+                    Üyeliğinizi istediğiniz zaman hesap sayfanızdan kolayca iptal edebilirsiniz. İptal işlemi sonraki fatura tarihinden itibaren geçerli olur ve hesabınız ücretsiz plana geçer.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Hangi ödeme yöntemlerini kabul ediyorsunuz?
+                </div>
+                <div class="faq-answer">
+                    Kredi kartı, banka kartı, havale ve tüm büyük ödeme sistemlerini kabul ediyoruz. Güvenli ödeme altyapımız sayesinde bilgileriniz korunur.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Danışmanlık seansları nasıl gerçekleşir?
+                </div>
+                <div class="faq-answer">
+                    Danışmanlık seanslarımız online video görüşme, telefon veya yüz yüze (Ankara merkez) olarak gerçekleşebilir. Size en uygun yöntemi birlikte belirleriz.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Ücretsiz deneme süresi var mı?
+                </div>
+                <div class="faq-answer">
+                    Evet! İlk 2 ay ücretsiz deneme imkanı sunuyoruz. Bu süre içinde tüm hizmetlerimizi deneyebilir, memnun kalmazsanız ücretsiz iptal edebilirsiniz.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Norogastro</h3>
+                    <p>Nörogastronomi alanında akademik bilgi birikimini sektörel uygulamalarla buluşturarak, sadece lezzet değil, bilişsel iz bırakan deneyimler tasarlıyoruz.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Hızlı Linkler</h3>
+                    <a href="index.html">Ana Sayfa</a>
+                    <a href="index.html#hakkimizda">Hakkımızda</a>
+                    <a href="index.html#hizmetler">Hizmetler</a>
+                    <a href="index.html#iletisim">İletişim</a>
+                </div>
+                <div class="footer-section">
+                    <h3>İletişim</h3>
+                    <a href="mailto:info@norogastro.com">info@norogastro.com</a>
+                    <a href="tel:+905395946564">0539 594 65 64</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Sosyal Medya</h3>
+                    <a href="https://www.instagram.com/norogastro/" target="_blank">Instagram</a>
+                    <a href="https://www.linkedin.com/company/brain-to-genetic/" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Norogastro. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const isActive = answer.classList.contains('active');
+            
+            // Close all other FAQ items
+            document.querySelectorAll('.faq-answer').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Toggle current item
+            if (!isActive) {
+                answer.classList.add('active');
+            }
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

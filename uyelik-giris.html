@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üye Girişi - Norogastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #2c460a 0%, #4A5230 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(245, 241, 232, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #2b2b2b;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #4A5230;
+        }
+
+        /* Login Form */
+        .login-container {
+            background: rgba(245, 241, 232, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: 20px;
+            border: 2px solid rgba(245, 241, 232, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px;
+            margin-top: 100px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h1 {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #f5f1e8;
+        }
+
+        .login-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            color: #f5f1e8;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #f5f1e8;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(245, 241, 232, 0.3);
+            border-radius: 10px;
+            background: rgba(245, 241, 232, 0.1);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #f5f1e8;
+            background: rgba(245, 241, 232, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(245, 241, 232, 0.6);
+        }
+
+        .login-button {
+            width: 100%;
+            background: linear-gradient(45deg, #f5f1e8, #e8e0d0);
+            color: #2c460a;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 241, 232, 0.3);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: #f5f1e8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            opacity: 1;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(245, 241, 232, 0.2);
+        }
+
+        .signup-link p {
+            color: #f5f1e8;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .signup-link a {
+            color: #f5f1e8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover {
+            color: #ffffff;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .social-login p {
+            color: #f5f1e8;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-button {
+            background: rgba(245, 241, 232, 0.1);
+            border: 2px solid rgba(245, 241, 232, 0.3);
+            color: #f5f1e8;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .social-button:hover {
+            background: rgba(245, 241, 232, 0.2);
+            border-color: rgba(245, 241, 232, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .login-container {
+                margin: 20px;
+                padding: 30px;
+                margin-top: 80px;
+            }
+            
+            .login-header h1 {
+                font-size: 2rem;
+            }
+            
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <img src="LOGO.png" alt="Norogastro" class="logo">
+                <nav class="nav-links">
+                    <a href="index.html">Ana Sayfa</a>
+                    <a href="index.html#hakkimizda">Hakkımızda</a>
+                    <a href="index.html#hizmetler">Hizmetler</a>
+                    <a href="index.html#iletisim">İletişim</a>
+                    <a href="uyelik.html">Üyelik</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Form -->
+    <div class="container">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Üye Girişi</h1>
+                <p>Nörogastronomi uzmanlığına hoş geldiniz</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">E-posta Adresi</label>
+                    <input type="email" id="email" name="email" placeholder="ornek@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" name="password" placeholder="Şifrenizi girin" required>
+                </div>
+
+                <button type="submit" class="login-button">Giriş Yap</button>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#" onclick="alert('Şifre sıfırlama özelliği yakında eklenecek!')">Şifremi Unuttum</a>
+            </div>
+
+            <div class="social-login">
+                <p>veya sosyal medya ile giriş yapın</p>
+                <div class="social-buttons">
+                    <a href="#" class="social-button" onclick="alert('Google ile giriş özelliği yakında eklenecek!')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 5px;">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                        </svg>
+                        Google
+                    </a>
+                    <a href="#" class="social-button" onclick="alert('Apple ile giriş özelliği yakında eklenecek!')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 5px;">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        Apple
+                    </a>
+                </div>
+            </div>
+
+            <div class="signup-link">
+                <p>Henüz üye değil misiniz?</p>
+                <a href="uyelik.html">Üyeliğe Başlayın</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Basit validasyon
+            if (!email || !password) {
+                alert('Lütfen tüm alanları doldurun.');
+                return;
+            }
+            
+            // E-posta format kontrolü
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Lütfen geçerli bir e-posta adresi girin.');
+                return;
+            }
+            
+            // Şifre uzunluk kontrolü
+            if (password.length < 6) {
+                alert('Şifre en az 6 karakter olmalıdır.');
+                return;
+            }
+            
+            // Başarılı giriş simülasyonu
+            alert('Giriş başarılı! Üye paneli yakında eklenecek.');
+            
+            // Formu temizle
+            this.reset();
+        });
+
+        // Enter tuşu ile form gönderimi
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
