@@ -666,7 +666,9 @@
             .hero-image { width: 100%; height: auto; overflow-x: hidden; }
             .hero-image img { width: 100%; height: auto; max-width: 100%; margin: 0; display: block; transform: none; object-fit: contain; object-position: left center; }
             @media (max-width: 768px) {
-                .hero-image img { transform: translateX(-12px); }
+                .hero-image { margin-left: 0 !important; padding-left: 0 !important; overflow: hidden; }
+                .hero-image img { width: 100vw; max-width: none; transform: none; object-fit: cover; object-position: left center; margin: 0; display: block; }
+                html, body { overflow-x: hidden; }
             }
             .hero-text { margin-left: 0; }
             .slogan { width: 100%; max-width: 100%; margin: 16px 0 0 -20px; padding: 16px 18px; font-size: 1.05rem; text-align: left; }
