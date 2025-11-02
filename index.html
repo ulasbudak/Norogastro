@@ -719,7 +719,23 @@
 
             /* Video alanını daralt ve ortala */
             .video-container { width: 100%; max-width: 640px; margin: 24px auto 0; text-align: center; transform: none; margin-left: auto; overflow-x: hidden; }
-            .video-container video { width: 100%; max-width: 640px; }
+            .video-container video { 
+                width: 100%; 
+                max-width: 640px; 
+                pointer-events: none;
+            }
+            .video-container video::-webkit-media-controls,
+            .video-container video::-webkit-media-controls-panel,
+            .video-container video::-webkit-media-controls-play-button,
+            .video-container video::-webkit-media-controls-timeline,
+            .video-container video::-webkit-media-controls-current-time-display,
+            .video-container video::-webkit-media-controls-time-remaining-display,
+            .video-container video::-webkit-media-controls-mute-button,
+            .video-container video::-webkit-media-controls-volume-slider,
+            .video-container video::-webkit-media-controls-fullscreen-button {
+                display: none !important;
+                opacity: 0 !important;
+            }
 
             /* Hizmet kartlarını mobilde tam genişlik kullanacak şekilde normalleştir */
             .second-page #hizmetler .services-grid { grid-template-columns: 1fr; gap: 16px; margin: 16px 0 0 0; width: 100% !important; margin-right: 0 !important; margin-left: 0 !important; position: static; }
@@ -896,7 +912,7 @@
             <h2>Hizmetler</h2>
             
             <div class="video-container">
-                <video autoplay loop muted>
+                <video autoplay loop muted playsinline>
                     <source src="siteiçinvideo.mp4" type="video/mp4">
                     Tarayıcınız video oynatmayı desteklemiyor.
                 </video>
