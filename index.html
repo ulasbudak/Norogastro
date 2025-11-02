@@ -787,7 +787,10 @@
             /* Hakkımızda başlığını toplam 70px sola kaydır */
             #hakkimizda h2 { transform: translateX(-70px); }
             /* Hizmetler başlığını 40px sağa kaydır */
-            #hizmetler h2 { transform: translateX(40px); }
+            #hizmetler h2 { 
+                transform: translateX(40px) !important; 
+                animation: none !important;
+            }
         }
     </style>
     <script>
