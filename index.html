@@ -672,12 +672,15 @@
             .top-nav { padding: 0 14px; }
             html, body { width: 100%; overflow-x: hidden; }
             .container { max-width: 640px; padding: 0 16px; }
-            .section { max-width: 640px; margin: 20px auto; padding: 28px 16px; }
-            .section h2 { font-size: 1.5rem; }
-            body { font-size: 0.9rem; }
+            .section { max-width: 640px; margin: 15px auto; padding: 20px 14px; }
+            .section h2 { font-size: 1.1rem; margin-bottom: 15px; }
+            body { font-size: 0.75rem; line-height: 1.4; }
+            .section p { font-size: 0.85rem; margin-bottom: 12px; line-height: 1.5; }
+            #hakkimizda p { font-size: 0.85rem; margin: 10px auto; line-height: 1.5; }
+            #hakkimizda p:first-of-type::first-letter { font-size: 1.8rem; }
             
             /* Hero görsel ve sloganı daralt */
-            .hero { padding: 24px 0; text-align: left; }
+            .hero { padding: 20px 0; text-align: left; }
             .hero-content { margin-left: 0; }
             .hero-image { width: 100%; height: auto; overflow-x: hidden; }
             .hero-image img { width: 100%; height: auto; max-width: 100%; margin: 0; display: block; transform: none; object-fit: contain; object-position: left center; }
@@ -687,10 +690,10 @@
                 html, body { overflow-x: hidden; }
             }
             .hero-text { margin-left: 0; }
-            .slogan { width: 100%; max-width: 100%; margin: 16px 0 0 -20px; padding: 16px 18px; font-size: 0.95rem; text-align: left; }
+            .slogan { width: 100%; max-width: 100%; margin: 12px 0 0 -20px; padding: 12px 14px; font-size: 0.8rem; text-align: left; line-height: 1.4; }
 
             /* Tam genişlikli görselleri daralt ve ortala */
-            .image-container { width: 100%; max-width: 640px; margin: 40px auto 0; transform: none; margin-left: auto; overflow-x: hidden; }
+            .image-container { width: 100%; max-width: 640px; margin: 25px auto 0; transform: none; margin-left: auto; overflow-x: hidden; }
             .section-image { width: 100%; max-width: 100%; }
             /* 2. görseli sayfaya sığdır ve sağ/soldan ekrana bitişik yap - sol tarafı tamamla */
             /* Body overflow'u görsel için aç - mobilde görsel kırpılmasın */
@@ -725,7 +728,7 @@
             .gallery-image { width: 100%; max-width: 100%; }
 
             /* Video alanını daralt ve ortala */
-            .video-container { width: 100%; max-width: 640px; margin: 24px auto 0; text-align: center; transform: none; margin-left: auto; overflow-x: hidden; }
+            .video-container { width: 100%; max-width: 640px; margin: 15px auto 0; text-align: center; transform: none; margin-left: auto; overflow-x: hidden; }
             .video-container video { 
                 width: 100%; 
                 max-width: 640px; 
@@ -745,10 +748,12 @@
             }
 
             /* Hizmet kartlarını mobilde tam genişlik kullanacak şekilde normalleştir */
-            .second-page #hizmetler .services-grid { grid-template-columns: 1fr; gap: 16px; margin: 16px 0 0 0; width: 100% !important; margin-right: 0 !important; margin-left: 0 !important; position: static; }
-            .second-page #hizmetler .service-card:last-child { margin-left: 0 !important; margin-top: 0 !important; width: auto !important; max-width: none !important; padding: 20px; }
-            .second-page #hizmetler .service-card { opacity: 1; transform: none; }
-            .second-page #hizmetler .video-container { margin: 12px auto 8px; text-align: center; }
+            .second-page #hizmetler .services-grid { grid-template-columns: 1fr; gap: 12px; margin: 12px 0 0 0; width: 100% !important; margin-right: 0 !important; margin-left: 0 !important; position: static; }
+            .second-page #hizmetler .service-card:last-child { margin-left: 0 !important; margin-top: 0 !important; width: auto !important; max-width: none !important; padding: 15px; }
+            .second-page #hizmetler .service-card { opacity: 1; transform: none; padding: 15px; }
+            .second-page #hizmetler .service-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
+            .second-page #hizmetler .service-card p { font-size: 0.85rem; line-height: 1.5; }
+            .second-page #hizmetler .video-container { margin: 10px auto 6px; text-align: center; }
             .second-page, #hakkimizda, #hizmetler, #iletisim { overflow-x: hidden; }
             nav.top-nav .menu {
                 position: absolute;
@@ -777,30 +782,33 @@
             .top-nav .menu a {
                 padding: 12px 12px;      /* daha büyük tıklama alanı */
                 border-radius: 10px;
-                font-size: 0.85rem;      /* mobil yazı boyutu */
+                font-size: 0.8rem;      /* mobil yazı boyutu */
                 line-height: 1.25;
             }
             .hero {
                 min-height: auto;
-                padding: 40px 20px;
+                padding: 30px 16px;
             }
             
             .hero-content {
                 flex-direction: column;
-                gap: 30px;
+                gap: 20px;
             }
             
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.4rem;
+                margin-bottom: 15px;
             }
             
             .slogan {
-                font-size: 1rem;
-                padding: 20px;
+                font-size: 0.8rem;
+                padding: 12px 14px;
+                line-height: 1.4;
             }
             
             .section h2 {
-                font-size: 1.7rem;
+                font-size: 1.1rem;
+                margin-bottom: 15px;
             }
             
             .social-links {
