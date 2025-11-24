@@ -1,0 +1,20 @@
+# Database dosyası
+database.db
+*.db
+
+# PHP hata logları
+*.log
+
+# Sistem dosyaları
+.DS_Store
+Thumbs.db
+
+# IDE dosyaları
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+
+

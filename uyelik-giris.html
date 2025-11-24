@@ -324,11 +324,13 @@
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
             
             // Basit validasyon
             if (!email || !password) {
@@ -349,17 +351,49 @@
                 return;
             }
             
-            // Başarılı giriş simülasyonu
-            alert('Giriş başarılı! Üye paneli yakında eklenecek.');
+            // Butonu devre dışı bırak ve yükleme durumu göster
+            submitButton.disabled = true;
+            submitButton.textContent = 'Giriş yapılıyor...';
             
-            // Formu temizle
-            this.reset();
+            try {
+                // API çağrısı
+                const response = await fetch('login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Giriş başarılı! Yönlendiriliyorsunuz...');
+                    // Ana sayfaya yönlendir
+                    window.location.href = 'index.html';
+                } else {
+                    alert(result.message || 'Giriş başarısız. Lütfen tekrar deneyin.');
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
+                }
+            } catch (error) {
+                console.error('Giriş hatası:', error);
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
         });
 
         // Enter tuşu ile form gönderimi
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+                const form = document.getElementById('loginForm');
+                if (form) {
+                    form.dispatchEvent(new Event('submit'));
+                }
             }
         });
     </script>

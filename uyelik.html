@@ -332,6 +332,135 @@
             color: #999;
         }
 
+        /* Register Modal */
+        .register-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            overflow-y: auto;
+        }
+
+        .register-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .register-modal-content {
+            background: #f5f1e8;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            color: #2b2b2b;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .register-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #2b2b2b;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .register-modal-close:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .register-form h2 {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #2c460a;
+        }
+
+        .register-form p {
+            margin-bottom: 25px;
+            color: #666;
+        }
+
+        .register-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .register-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2b2b2b;
+        }
+
+        .register-form input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(44, 70, 10, 0.2);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #2b2b2b;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .register-form input:focus {
+            outline: none;
+            border-color: #2c460a;
+        }
+
+        .register-form .selected-plan {
+            background: rgba(44, 70, 10, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2c460a;
+        }
+
+        .register-form .selected-plan strong {
+            color: #2c460a;
+        }
+
+        .register-submit-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #2c460a, #4A5230);
+            color: #f5f1e8;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .register-submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 70, 10, 0.3);
+        }
+
+        .register-submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
@@ -439,7 +568,7 @@
                         <li>✓ E-posta desteği</li>
                         <li>✓ Temel raporlar</li>
                     </ul>
-                    <button class="plan-button">Planı Seç</button>
+                    <button class="plan-button" onclick="openRegisterModal('baslangic', 'Başlangıç', '₺199')">Planı Seç</button>
                 </div>
 
                 <div class="plan-card featured">
@@ -454,7 +583,7 @@
                         <li>✓ Menü tasarım desteği</li>
                         <li>✓ Aylık değerlendirme</li>
                     </ul>
-                    <button class="plan-button">Planı Seç</button>
+                    <button class="plan-button" onclick="openRegisterModal('profesyonel', 'Profesyonel', '₺299')">Planı Seç</button>
                 </div>
 
                 <div class="plan-card">
@@ -470,7 +599,7 @@
                         <li>✓ Marka stratejisi</li>
                         <li>✓ Özel projeler</li>
                     </ul>
-                    <button class="plan-button">Planı Seç</button>
+                    <button class="plan-button" onclick="openRegisterModal('kurumsal', 'Kurumsal', '₺499')">Planı Seç</button>
                 </div>
             </div>
         </div>
@@ -552,6 +681,58 @@
         </div>
     </footer>
 
+    <!-- Register Modal -->
+    <div class="register-modal" id="registerModal">
+        <div class="register-modal-content">
+            <button class="register-modal-close" onclick="closeRegisterModal()">&times;</button>
+            <div class="register-form">
+                <h2>Üyeliğe Başlayın</h2>
+                <p>Seçtiğiniz plan için kayıt olun</p>
+                
+                <div class="selected-plan" id="selectedPlanInfo">
+                    <strong>Seçilen Plan:</strong> <span id="selectedPlanName"></span> - <span id="selectedPlanPrice"></span>
+                </div>
+
+                <form id="registerForm">
+                    <input type="hidden" id="selectedPlan" name="plan">
+                    
+                    <div class="form-group">
+                        <label for="reg-name">Ad Soyad *</label>
+                        <input type="text" id="reg-name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-email">E-posta Adresi *</label>
+                        <input type="email" id="reg-email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-phone">Telefon *</label>
+                        <input type="tel" id="reg-phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-company">Şirket/Kurum</label>
+                        <input type="text" id="reg-company" name="company">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-password">Şifre *</label>
+                        <input type="password" id="reg-password" name="password" required minlength="6">
+                        <small style="color: #666; font-size: 0.9rem;">En az 6 karakter</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-password-confirm">Şifre Tekrar *</label>
+                        <input type="password" id="reg-password-confirm" name="password_confirm" required minlength="6">
+                    </div>
+                    
+                    <button type="submit" class="register-submit-btn" id="registerSubmitBtn">Kayıt Ol</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Mobile menu toggle (same as index)
         document.addEventListener('DOMContentLoaded', () => {
@@ -590,6 +771,101 @@
                     });
                 }
             });
+        });
+
+        // Register Modal Functions
+        let selectedPlanValue = '';
+
+        function openRegisterModal(plan, planName, planPrice) {
+            selectedPlanValue = plan;
+            document.getElementById('selectedPlan').value = plan;
+            document.getElementById('selectedPlanName').textContent = planName;
+            document.getElementById('selectedPlanPrice').textContent = planPrice + ' / aylık';
+            document.getElementById('registerModal').classList.add('active');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.remove('active');
+            document.getElementById('registerForm').reset();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('registerModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRegisterModal();
+            }
+        });
+
+        // Register Form Submit
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('registerSubmitBtn');
+            const originalText = submitBtn.textContent;
+            
+            // Form verilerini al
+            const formData = {
+                name: document.getElementById('reg-name').value.trim(),
+                email: document.getElementById('reg-email').value.trim(),
+                phone: document.getElementById('reg-phone').value.trim(),
+                company: document.getElementById('reg-company').value.trim(),
+                password: document.getElementById('reg-password').value,
+                password_confirm: document.getElementById('reg-password-confirm').value,
+                plan: selectedPlanValue
+            };
+            
+            // Validasyon
+            if (!formData.name || !formData.email || !formData.phone || !formData.password) {
+                alert('Lütfen tüm zorunlu alanları doldurun.');
+                return;
+            }
+            
+            if (formData.password !== formData.password_confirm) {
+                alert('Şifreler eşleşmiyor.');
+                return;
+            }
+            
+            if (formData.password.length < 6) {
+                alert('Şifre en az 6 karakter olmalıdır.');
+                return;
+            }
+            
+            // E-posta format kontrolü
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formData.email)) {
+                alert('Geçerli bir e-posta adresi giriniz.');
+                return;
+            }
+            
+            // Butonu devre dışı bırak
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Kayıt yapılıyor...';
+            
+            try {
+                const response = await fetch('register.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Kayıt başarılı! Yönlendiriliyorsunuz...');
+                    window.location.href = 'index.html';
+                } else {
+                    alert(result.message || 'Kayıt başarısız. Lütfen tekrar deneyin.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            } catch (error) {
+                console.error('Kayıt hatası:', error);
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
         });
     </script>
 </body>
