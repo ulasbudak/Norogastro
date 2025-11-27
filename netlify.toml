@@ -1,0 +1,23 @@
+[build]
+  publish = "."
+
+# www olmadan gelen istekleri www'ye yönlendir
+[[redirects]]
+  from = "http://norogastro.com/*"
+  to = "https://www.norogastro.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://norogastro.com/*"
+  to = "https://www.norogastro.com/:splat"
+  status = 301
+  force = true
+
+# HTTP www'yi HTTPS www'ye yönlendir
+[[redirects]]
+  from = "http://www.norogastro.com/*"
+  to = "https://www.norogastro.com/:splat"
+  status = 301
+  force = true
+

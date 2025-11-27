@@ -1,0 +1,5 @@
+# Netlify redirects - www olmadan gelen istekleri www'ye yönlendir
+http://norogastro.com/*  https://www.norogastro.com/:splat  301!
+https://norogastro.com/*  https://www.norogastro.com/:splat  301!
+http://www.norogastro.com/*  https://www.norogastro.com/:splat  301!
+
