@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# www olmadan gelen istekleri www'ye yönlendir
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# Alternatif olarak, eğer HTTPS kullanıyorsanız:
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
