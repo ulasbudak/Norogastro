@@ -827,6 +827,16 @@
         }
     </style>
     <script>
+        // www yönlendirmesi - tarayıcı tarafında
+        (function() {
+            const host = window.location.hostname;
+            if (host && !host.startsWith('www.')) {
+                const protocol = window.location.protocol;
+                const path = window.location.pathname + window.location.search + window.location.hash;
+                window.location.replace(protocol + '//www.' + host + path);
+            }
+        })();
+        
         // Reveal-on-scroll for Hakkımızda content
         const onScrollReveal = () => {
             const elements = document.querySelectorAll('#hakkimizda .reveal');
