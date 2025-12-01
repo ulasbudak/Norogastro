@@ -763,13 +763,14 @@
             .second-page #hizmetler .service-card:last-child { margin-left: 0 !important; margin-top: 0 !important; width: auto !important; max-width: none !important; padding: 15px; }
             .second-page #hizmetler .service-card { opacity: 1; transform: none; padding: 15px; }
             .second-page #hizmetler .service-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
-            .second-page #hizmetler .service-card p { font-size: 0.85rem; line-height: 1.5; }
-            /* Markaya Özel Yol Haritası kartı (4.) – başlık ve paragraf aralığını sıkılaştır */
-            .second-page #hizmetler .service-card:nth-child(4) h3 { margin-bottom: 6px; }
-            .second-page #hizmetler .service-card:nth-child(4) p { line-height: 1.4; margin-top: 0; margin-bottom: 0; }
-            /* Şef ve Ekip Eğitimi kartı (5. / son) – başlık ve paragraf aralığını sıkılaştır */
-            .second-page #hizmetler .service-card:last-child h3 { margin-bottom: 4px; }
-            .second-page #hizmetler .service-card:last-child p { line-height: 1.3; margin-top: 0; margin-bottom: 0; }
+            /* Mobilde Hizmetler paragraf metninde sadece kelime aralıklarını düzelt (justify kaldır) */
+            .second-page #hizmetler .service-card p { 
+                font-size: 0.85rem; 
+                line-height: 1.5; 
+                text-align: left; 
+                text-justify: auto; 
+                word-spacing: normal; 
+            }
             .second-page #hizmetler .video-container { margin: 10px auto 6px; text-align: center; }
             .second-page, #hakkimizda, #hizmetler, #iletisim { overflow-x: hidden; }
             nav.top-nav .menu {
