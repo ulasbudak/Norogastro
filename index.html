@@ -896,8 +896,17 @@
             const toggle = document.querySelector('.menu-toggle');
             const menu = document.querySelector('.top-nav .menu');
             if (toggle && menu) {
+                // Menü aç/kapa butonu
                 toggle.addEventListener('click', () => {
                     menu.classList.toggle('open');
+                });
+
+                // Menüdeki bir linke tıklanınca menüyü kapat
+                const links = menu.querySelectorAll('a[href^=\"#\"]');
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        menu.classList.remove('open');
+                    });
                 });
             }
         });
