@@ -396,16 +396,16 @@
             }
         });
 
-        // "Üyeliğe Başlayın" linki: üyelik sayfasına yönlendir (redirect varsa query'e ekle)
+        // "Üyeliğe Başlayın" linki: üyelik sayfasına gidip kayıt ekranı açılsın (register=1)
         document.addEventListener('DOMContentLoaded', function() {
             const signupLink = document.getElementById('signupLink');
             if (!signupLink) return;
             const urlParams = new URLSearchParams(window.location.search);
             const redirect = urlParams.get('redirect');
             const basePath = window.location.pathname.replace(/[^/]+$/, '');
-            let signupUrl = basePath + 'uyelik.html';
+            let signupUrl = basePath + 'uyelik.html?register=1';
             if (redirect && redirect.indexOf('..') === -1) {
-                signupUrl += '?redirect=' + encodeURIComponent(redirect);
+                signupUrl += '&redirect=' + encodeURIComponent(redirect);
             }
             signupLink.href = signupUrl;
             signupLink.addEventListener('click', function(e) {

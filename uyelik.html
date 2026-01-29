@@ -1119,6 +1119,11 @@
                     menu.classList.toggle('open');
                 });
             }
+            // Üye girişi sayfasından "Üyeliğe Başlayın" ile geldiyse kayıt ekranını aç
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('register') === '1') {
+                openRegisterModal('uyelik_basla', 'Paketleri inceleyebilirsiniz', '');
+            }
         });
         function toggleFAQ(element) {
             const answer = element.nextElementSibling;
