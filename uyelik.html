@@ -330,6 +330,34 @@
             display: block;
         }
 
+        .modular-login-required {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(245, 241, 232, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(245, 241, 232, 0.2);
+        }
+        .modular-login-required p {
+            color: #f5f1e8;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            opacity: 0.95;
+        }
+        .modular-login-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: linear-gradient(45deg, #f5f1e8, #e8e0d0);
+            color: #2c460a;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .modular-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(245, 241, 232, 0.3);
+        }
+
         .plan-card {
             background: rgba(245, 241, 232, 0.1);
             backdrop-filter: blur(10px);
@@ -659,42 +687,6 @@
             color: #4A5230;
         }
 
-        .payment-register-banner {
-            background: rgba(245, 241, 232, 0.95);
-            color: #2c460a;
-            padding: 20px 0;
-            text-align: center;
-            border-bottom: 2px solid rgba(44, 70, 10, 0.3);
-        }
-        .payment-register-banner p {
-            margin-bottom: 16px;
-            font-size: 1.15rem;
-            font-weight: 500;
-        }
-        .payment-register-actions {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .payment-register-actions .cta-button {
-            margin: 0;
-        }
-        .btn-secondary-light {
-            display: inline-block;
-            padding: 12px 28px;
-            border: 2px solid #2c460a;
-            color: #2c460a;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .btn-secondary-light:hover {
-            background: #2c460a;
-            color: #f5f1e8;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
@@ -761,17 +753,6 @@
         </div>
     </nav>
     <!-- Eski header gizlendi; yukarıda ana menü kullanılıyor -->
-
-    <!-- Ödemeye geçmek için kayıt banner'ı (redirect=odeme & sepet doluysa göster) -->
-    <div id="paymentRegisterBanner" class="payment-register-banner" style="display: none;">
-        <div class="container">
-            <p>Sepetiniz hazır. Ödemeye geçmek için kayıt olun veya giriş yapın.</p>
-            <div class="payment-register-actions">
-                <button type="button" class="cta-button" onclick="openRegisterModal('sepet', 'Sepetiniz', '');">Üye Ol</button>
-                <a href="uyelik-giris.html?redirect=odeme.html" class="btn-secondary-light">Giriş Yap</a>
-            </div>
-        </div>
-    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -914,6 +895,13 @@
                     <h3 class="plan-name">Modüler Nörogastronomi Sistemi</h3>
                     <div class="plan-price">Kendi Paketinizi Oluşturun</div>
                     <div class="plan-period">ihtiyaca göre</div>
+                    <!-- Giriş yapılmamışsa göster -->
+                    <div id="modular-login-required" class="modular-login-required">
+                        <p>Detaylar için üye girişi yapınız.</p>
+                        <a href="uyelik-giris.html" class="modular-login-btn">Üye Girişi</a>
+                    </div>
+                    <!-- Giriş yapılmışsa göster -->
+                    <div id="modular-details" style="display: none;">
                     <p style="text-align: left; margin-bottom: 20px; font-size: 0.95rem; opacity: 0.9; line-height: 1.6;">
                         Her işletmenin operasyonel gereksinimleri ve stratejik hedefleri farklıdır. Bu nedenle premium danışmanlık modelimiz, işletmelerin kendi ihtiyaçlarına uygun bir hizmet paketi oluşturabilmeleri için modüler ve esnek bir yapı sunar. Analiz, optimizasyon, eğitim ve strateji modüllerinden dilediklerinizi seçerek; bütçenize, hedefinize ve kurum kültürünüze en uygun danışmanlık kapsamını belirleyebilirsiniz.
                     </p>
@@ -976,6 +964,7 @@
                         </div>
                     </div>
                     <button class="add-to-cart-btn" onclick="addModularToCart()" id="modular-add-btn" style="display: none;">Seçilen Modülleri Sepete Ekle</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1137,14 +1126,6 @@
                 toggle.addEventListener('click', () => {
                     menu.classList.toggle('open');
                 });
-            }
-            // Ödemeye yönlendirme ile geldiyse ve sepet doluysa "Üye Ol" banner'ını göster
-            const urlParams = new URLSearchParams(window.location.search);
-            const redirect = urlParams.get('redirect');
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const banner = document.getElementById('paymentRegisterBanner');
-            if (banner && redirect === 'odeme.html' && cart.length > 0) {
-                banner.style.display = 'block';
             }
         });
         function toggleFAQ(element) {
@@ -1480,11 +1461,13 @@
             checkLoginStatus();
         });
         
-        // Check if user is logged in and update menu
+        // Check if user is logged in and update menu + modüler bölüm
         function checkLoginStatus() {
             fetch('user-info.php')
                 .then(response => response.json())
                 .then(data => {
+                    const modularDetails = document.getElementById('modular-details');
+                    const modularLoginRequired = document.getElementById('modular-login-required');
                     if (data.success && data.user) {
                         // User is logged in - hide login/membership links, show panel link
                         const loginLink = document.getElementById('login-link');
@@ -1494,6 +1477,9 @@
                         if (loginLink) loginLink.style.display = 'none';
                         if (membershipLink) membershipLink.style.display = 'none';
                         if (panelLink) panelLink.style.display = 'block';
+                        // Modüler bölüm: detayları göster
+                        if (modularDetails) modularDetails.style.display = 'block';
+                        if (modularLoginRequired) modularLoginRequired.style.display = 'none';
                     } else {
                         // User is not logged in - show login/membership links, hide panel link
                         const loginLink = document.getElementById('login-link');
@@ -1503,11 +1489,18 @@
                         if (loginLink) loginLink.style.display = 'block';
                         if (membershipLink) membershipLink.style.display = 'block';
                         if (panelLink) panelLink.style.display = 'none';
+                        // Modüler bölüm: "Detaylar için üye girişi yapınız" göster
+                        if (modularDetails) modularDetails.style.display = 'none';
+                        if (modularLoginRequired) modularLoginRequired.style.display = 'block';
                     }
                 })
                 .catch(error => {
                     // If error, assume not logged in
                     console.error('Login status check failed:', error);
+                    const modularDetails = document.getElementById('modular-details');
+                    const modularLoginRequired = document.getElementById('modular-login-required');
+                    if (modularDetails) modularDetails.style.display = 'none';
+                    if (modularLoginRequired) modularLoginRequired.style.display = 'block';
                 });
         }
     </script>

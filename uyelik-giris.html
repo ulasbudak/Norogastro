@@ -19,14 +19,17 @@
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Header */
@@ -192,6 +195,10 @@
             color: #ffffff;
         }
 
+        .signup-link-anchor {
+            cursor: pointer;
+        }
+
         .social-login {
             margin-top: 30px;
             text-align: center;
@@ -318,7 +325,7 @@
 
             <div class="signup-link">
                 <p>Henüz üye değil misiniz?</p>
-                <a href="uyelik.html" id="signupLink">Üyeliğe Başlayın</a>
+                <a href="uyelik.html" id="signupLink" class="signup-link-anchor">Üyeliğe Başlayın</a>
             </div>
         </div>
     </div>
@@ -389,15 +396,23 @@
             }
         });
 
-        // Redirect parametresini "Üyeliğe Başlayın" linkine ekle (ödeme için kayıt sonrası geri dönebilsin)
-        (function() {
+        // "Üyeliğe Başlayın" linki: üyelik sayfasına yönlendir (redirect varsa query'e ekle)
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupLink = document.getElementById('signupLink');
+            if (!signupLink) return;
             const urlParams = new URLSearchParams(window.location.search);
             const redirect = urlParams.get('redirect');
-            const signupLink = document.getElementById('signupLink');
-            if (signupLink && redirect && redirect.indexOf('..') === -1) {
-                signupLink.href = 'uyelik.html?redirect=' + encodeURIComponent(redirect);
+            const basePath = window.location.pathname.replace(/[^/]+$/, '');
+            let signupUrl = basePath + 'uyelik.html';
+            if (redirect && redirect.indexOf('..') === -1) {
+                signupUrl += '?redirect=' + encodeURIComponent(redirect);
             }
-        })();
+            signupLink.href = signupUrl;
+            signupLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = signupUrl;
+            });
+        });
 
         // Enter tuşu ile form gönderimi
         document.addEventListener('keypress', function(e) {
@@ -409,7 +424,7 @@
             }
         });
     </script>
-    <footer style="text-align: center; padding: 24px 20px; color: rgba(245,241,232,0.7); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px;">
+    <footer style="width: 100%; text-align: center; padding: 24px 20px; color: rgba(245,241,232,0.7); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: auto;">
         <p>&copy; 2025 Norogastro. <a href="kvkk.html" style="color: rgba(245,241,232,0.8); margin: 0 6px;">KVKK</a> <a href="uyelik-sozlesmesi.html" style="color: rgba(245,241,232,0.8); margin: 0 6px;">Üyelik Sözleşmesi</a> <a href="mesafeli-satis-sozlesmesi.html" style="color: rgba(245,241,232,0.8); margin: 0 6px;">Mesafeli Satış</a> <a href="cerez-politikasi.html" style="color: rgba(245,241,232,0.8); margin: 0 6px;">Çerez Politikası</a></p>
     </footer>
 </body>
