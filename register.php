@@ -3,13 +3,14 @@
  * Kullanıcı kayıt endpoint'i
  */
 
+require_once 'config.php';
+setCORSHeaders();
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
 
 require_once 'database.php';
 require_once 'session.php';
+require_once 'security.php';
 
 // Sadece POST isteklerini kabul et
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -26,13 +27,24 @@ if (empty($input)) {
     $input = $_POST;
 }
 
+// Rate limiting kontrolü
+$rateLimitKey = 'register_' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+if (!checkRateLimit($rateLimitKey, 3, 600)) {
+    http_response_code(429);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Çok fazla kayıt denemesi yaptınız. Lütfen 10 dakika sonra tekrar deneyin.'
+    ]);
+    exit;
+}
+
 // Veri validasyonu
-$email = filter_var($input['email'] ?? '', FILTER_SANITIZE_EMAIL);
+$email = sanitizeInput($input['email'] ?? '', 'email');
 $password = $input['password'] ?? '';
-$name = isset($input['name']) ? trim($input['name']) : null;
-$phone = isset($input['phone']) ? trim($input['phone']) : null;
-$company = isset($input['company']) ? trim($input['company']) : null;
-$plan = isset($input['plan']) ? trim($input['plan']) : 'baslangic';
+$name = isset($input['name']) ? sanitizeInput($input['name'], 'string') : null;
+$phone = isset($input['phone']) ? sanitizeInput($input['phone'], 'string') : null;
+$company = isset($input['company']) ? sanitizeInput($input['company'], 'string') : null;
+$plan = isset($input['plan']) ? sanitizeInput($input['plan'], 'string') : 'duyusal-baslangic';
 
 // Validasyon kontrolleri
 $errors = [];
@@ -41,8 +53,13 @@ if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors[] = 'Geçerli bir e-posta adresi giriniz.';
 }
 
-if (empty($password) || strlen($password) < 6) {
-    $errors[] = 'Şifre en az 6 karakter olmalıdır.';
+if (empty($password)) {
+    $errors[] = 'Şifre gereklidir.';
+} else {
+    $passwordErrors = validatePasswordStrength($password);
+    if (!empty($passwordErrors)) {
+        $errors = array_merge($errors, $passwordErrors);
+    }
 }
 
 if (!empty($errors)) {

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Panelim - Norogastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #2c460a, #4A5230);
+            color: #2b2b2b;
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 241, 232, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 0 24px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .top-nav .brand img.logo {
+            height: 50px;
+        }
+
+        .top-nav .menu {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .top-nav .menu a {
+            color: #2c460a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .top-nav .menu a:hover {
+            color: #4A5230;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #2c460a;
+            transition: all 0.3s ease;
+        }
+
+        /* Panel Section */
+        .panel-section {
+            padding: 40px 0;
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .panel-header h1 {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2.5rem;
+            color: #f5f1e8;
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            background: rgba(245, 241, 232, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(245, 241, 232, 0.2);
+            margin-bottom: 30px;
+            color: #f5f1e8;
+        }
+
+        .user-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #f5f1e8;
+        }
+
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-item label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .info-item span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .orders-section {
+            margin-top: 40px;
+        }
+
+        .orders-section h2 {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2rem;
+            color: #f5f1e8;
+            margin-bottom: 20px;
+        }
+
+        .order-card {
+            background: rgba(245, 241, 232, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid rgba(245, 241, 232, 0.2);
+            margin-bottom: 20px;
+            color: #f5f1e8;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .order-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f5f1e8;
+        }
+
+        .order-date {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .order-status.pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.5);
+        }
+
+        .order-status.completed {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+            border: 1px solid rgba(40, 167, 69, 0.5);
+        }
+
+        .order-status.failed {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.5);
+        }
+
+        .order-items {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(245, 241, 232, 0.2);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-name {
+            flex: 1;
+        }
+
+        .order-item-price {
+            font-weight: 600;
+        }
+
+        .order-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(245, 241, 232, 0.3);
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(245, 241, 232, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            color: #f5f1e8;
+        }
+
+        .no-orders h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #f5f1e8, #e8e0d0);
+            color: #2c460a;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 241, 232, 0.3);
+        }
+
+        .logout-btn {
+            background: rgba(220, 53, 69, 0.2);
+            color: #f5f1e8;
+            padding: 10px 20px;
+            border: 1px solid rgba(220, 53, 69, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(220, 53, 69, 0.4);
+            border-color: rgba(220, 53, 69, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .top-nav {
+                height: 64px;
+                padding: 0 14px;
+            }
+
+            .top-nav .brand img.logo {
+                height: 44px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .top-nav .menu {
+                position: absolute;
+                top: 64px;
+                left: 50%;
+                right: auto;
+                display: none;
+                flex-direction: column;
+                gap: 6px;
+                background: rgba(245, 241, 232, 0.96);
+                backdrop-filter: blur(6px);
+                padding: 10px 14px 14px;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+                z-index: 1001;
+                transform: translateX(-50%);
+                width: 86vw !important;
+                max-width: 380px !important;
+            }
+
+            .top-nav .menu.open {
+                display: flex;
+            }
+
+            .panel-header h1 {
+                font-size: 2rem;
+            }
+
+            .order-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="brand" aria-label="Norogastro Anasayfa">
+            <img src="LOGO.png" alt="Norogastro" class="logo">
+        </a>
+        <button class="menu-toggle" aria-label="Menüyü aç/kapat">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="menu">
+            <a href="index.html#hakkimizda">Hakkımızda</a>
+            <a href="index.html#hizmetler">Hizmetler</a>
+            <a href="index.html#iletisim">İletişim</a>
+            <a href="uyelik.html">Üyelik</a>
+            <a href="kullanici-panel.html">Panelim</a>
+            <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+        </div>
+    </nav>
+
+    <!-- Panel Section -->
+    <section class="panel-section">
+        <div class="container">
+            <div class="panel-header">
+                <h1>Kullanıcı Panelim</h1>
+            </div>
+
+            <div id="user-info-section" class="user-info">
+                <h2>Hesap Bilgilerim</h2>
+                <div class="user-info-grid" id="user-info-grid">
+                    <!-- User info will be loaded here -->
+                </div>
+            </div>
+
+            <div class="orders-section">
+                <h2>Sipariş Geçmişim</h2>
+                <div id="orders-container">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.querySelector('.menu-toggle');
+            const menu = document.querySelector('.top-nav .menu');
+            if (toggle && menu) {
+                toggle.addEventListener('click', () => {
+                    menu.classList.toggle('open');
+                });
+            }
+
+            loadUserInfo();
+            loadOrders();
+        });
+
+        function loadUserInfo() {
+            fetch('user-info.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.user) {
+                        const user = data.user;
+                        const grid = document.getElementById('user-info-grid');
+                        grid.innerHTML = `
+                            <div class="info-item">
+                                <label>Ad Soyad</label>
+                                <span>${user.name || 'Belirtilmemiş'}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>E-posta</label>
+                                <span>${user.email}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Telefon</label>
+                                <span>${user.phone || 'Belirtilmemiş'}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Şirket/Kurum</label>
+                                <span>${user.company || 'Belirtilmemiş'}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Üyelik Tarihi</label>
+                                <span>${new Date(user.created_at).toLocaleDateString('tr-TR')}</span>
+                            </div>
+                        `;
+                    } else {
+                        // Not logged in, redirect to login
+                        window.location.href = 'uyelik-giris.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Kullanıcı bilgisi yüklenemedi:', error);
+                    window.location.href = 'uyelik-giris.html';
+                });
+        }
+
+        function loadOrders() {
+            fetch('get-orders.php')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('orders-container');
+                    
+                    if (!data.success || !data.orders || data.orders.length === 0) {
+                        container.innerHTML = `
+                            <div class="no-orders">
+                                <h3>Henüz siparişiniz bulunmuyor</h3>
+                                <p>İlk siparişinizi vermek için paketlerimizi inceleyin.</p>
+                                <a href="uyelik.html" class="btn-primary">Paketleri İncele</a>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    let html = '';
+                    data.orders.forEach(order => {
+                        const statusClass = order.payment_status === 'completed' ? 'completed' : 
+                                          order.payment_status === 'failed' ? 'failed' : 'pending';
+                        const statusText = order.payment_status === 'completed' ? 'Tamamlandı' : 
+                                          order.payment_status === 'failed' ? 'Başarısız' : 'Beklemede';
+                        
+                        html += `
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div>
+                                        <div class="order-number">Sipariş #${order.order_number}</div>
+                                        <div class="order-date">${new Date(order.created_at).toLocaleDateString('tr-TR', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}</div>
+                                    </div>
+                                    <div class="order-status ${statusClass}">${statusText}</div>
+                                </div>
+                                <div class="order-items">
+                                    ${order.items.map(item => `
+                                        <div class="order-item">
+                                            <div class="order-item-name">${item.name || item.planName || 'Ürün'}</div>
+                                            <div class="order-item-price">${item.priceText || '₺' + (item.price || 0).toLocaleString('tr-TR', {minimumFractionDigits: 2})}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="order-total">
+                                    <span>Toplam</span>
+                                    <span>₺${parseFloat(order.total_amount).toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Siparişler yüklenemedi:', error);
+                    document.getElementById('orders-container').innerHTML = `
+                        <div class="no-orders">
+                            <h3>Siparişler yüklenirken bir hata oluştu</h3>
+                            <p>Lütfen sayfayı yenileyin.</p>
+                        </div>
+                    `;
+                });
+        }
+
+        function logout() {
+            if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
+                window.location.href = 'logout.php';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -647,6 +647,7 @@
         .top-nav .menu {
             display: flex;
             gap: 18px;
+            align-items: center;
         }
 
         .menu-toggle {
@@ -880,10 +881,11 @@
         }
     </style>
     <script>
-        // www yönlendirmesi - tarayıcı tarafında
+        // www yönlendirmesi - tarayıcı tarafında (sadece production için)
         (function() {
             const host = window.location.hostname;
-            if (host && !host.startsWith('www.')) {
+            // localhost veya 127.0.0.1 ise yönlendirme yapma
+            if (host && !host.startsWith('www.') && host !== 'localhost' && host !== '127.0.0.1' && !host.includes('localhost')) {
                 const protocol = window.location.protocol;
                 const path = window.location.pathname + window.location.search + window.location.hash;
                 window.location.replace(protocol + '//www.' + host + path);
@@ -941,7 +943,45 @@
                     });
                 });
             }
+            
+            // Check login status and update menu
+            checkLoginStatus();
         });
+        
+        // Check if user is logged in and update menu
+        function checkLoginStatus() {
+            fetch('user-info.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.user) {
+                        // User is logged in - hide login/membership links, show panel and cart links
+                        const loginLink = document.getElementById('login-link');
+                        const membershipLink = document.getElementById('membership-link');
+                        const panelLink = document.getElementById('panel-link');
+                        const cartLink = document.getElementById('cart-link');
+                        
+                        if (loginLink) loginLink.style.display = 'none';
+                        if (membershipLink) membershipLink.style.display = 'none';
+                        if (panelLink) panelLink.style.display = 'block';
+                        if (cartLink) cartLink.style.display = 'block';
+                    } else {
+                        // User is not logged in - show login/membership links, hide panel and cart links
+                        const loginLink = document.getElementById('login-link');
+                        const membershipLink = document.getElementById('membership-link');
+                        const panelLink = document.getElementById('panel-link');
+                        const cartLink = document.getElementById('cart-link');
+                        
+                        if (loginLink) loginLink.style.display = 'block';
+                        if (membershipLink) membershipLink.style.display = 'block';
+                        if (panelLink) panelLink.style.display = 'none';
+                        if (cartLink) cartLink.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    // If error, assume not logged in
+                    console.error('Login status check failed:', error);
+                });
+        }
     </script>
 </head>
 <body>
@@ -959,7 +999,12 @@
             <a href="#hakkimizda">Hakkımızda</a>
             <a href="#hizmetler">Hizmetler</a>
             <a href="#iletisim">İletişim</a>
-            <!-- <a href="uyelik.html">Üyelik</a> --> <!-- Deaktif - daha sonra tekrar aktif edilecek -->
+            <a href="uyelik.html" id="membership-link">Üyelik</a>
+            <a href="uyelik-giris.html" id="login-link">Üye Girişi</a>
+            <a href="kullanici-panel.html" id="panel-link" style="display: none;">Panelim</a>
+            <a href="sepet.html" id="cart-link" style="display: none; background: rgba(245, 241, 232, 0.95); color: #2c460a; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-weight: 500;">
+                🛒 Sepet
+            </a>
         </div>
     </nav>
     <!-- Hero Section -->
@@ -1140,6 +1185,12 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; 2024 Norogastro. Tüm hakları saklıdır.</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">
+                <a href="kvkk.html" style="color: #999; margin: 0 8px;">KVKK</a>
+                <a href="uyelik-sozlesmesi.html" style="color: #999; margin: 0 8px;">Üyelik Sözleşmesi</a>
+                <a href="mesafeli-satis-sozlesmesi.html" style="color: #999; margin: 0 8px;">Mesafeli Satış</a>
+                <a href="cerez-politikasi.html" style="color: #999; margin: 0 8px;">Çerez Politikası</a>
+            </p>
         </div>
     </footer>
 </body>

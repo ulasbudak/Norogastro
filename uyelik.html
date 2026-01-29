@@ -29,7 +29,7 @@
         .top-nav { position: fixed; top: 0; left: 0; right: 0; height: 80px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background: rgba(245, 241, 232, 0.0); color: #2b2b2b; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: none; z-index: 1000; }
         .top-nav .brand { font-family: 'Noto Serif Display', serif; font-size: 1.2rem; font-weight: 600; letter-spacing: 0.5px; color: #2b2b2b; text-decoration: none; display: flex; align-items: center; gap: 10px; }
         .top-nav .brand img.logo { height: 64px; width: auto; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
-        .top-nav .menu { display: flex; gap: 18px; }
+        .top-nav .menu { display: flex; gap: 18px; align-items: center; }
         .top-nav .menu a { color: #2b2b2b; text-decoration: none; font-weight: 600; padding: 10px 14px; border-radius: 10px; transition: background-color 0.2s ease, color 0.2s ease; }
         .top-nav .menu a:hover { background-color: rgba(0,0,0,0.06); }
         .menu-toggle { display: none; background: transparent; border: none; cursor: pointer; padding: 8px; }
@@ -158,9 +158,176 @@
 
         .plans-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin-top: 50px;
+        }
+        
+        .payment-options {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(245, 241, 232, 0.2);
+        }
+        
+        .payment-option {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .payment-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(245, 241, 232, 0.3);
+        }
+        
+        .payment-option.selected {
+            background: rgba(245, 241, 232, 0.15);
+            border-color: #f5f1e8;
+        }
+        
+        .payment-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .payment-option strong {
+            color: #f5f1e8;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .payment-option .price {
+            font-weight: 600;
+            color: #f5f1e8;
+        }
+        
+        .add-to-cart-btn {
+            background: linear-gradient(45deg, #2c460a, #4A5230);
+            color: #f5f1e8;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .add-to-cart-btn.active {
+            display: block;
+        }
+        
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 70, 10, 0.3);
+        }
+        
+        .cart-icon {
+            background: rgba(245, 241, 232, 0.95);
+            color: #2c460a;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .cart-icon:hover {
+            background: rgba(245, 241, 232, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .cart-badge {
+            background: #2c460a;
+            color: #f5f1e8;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .modular-modules {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(245, 241, 232, 0.2);
+            text-align: left;
+        }
+        
+        .modular-module {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #f5f1e8;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modular-module:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .modular-module.selected {
+            background: rgba(245, 241, 232, 0.15);
+            border-left-color: #f5f1e8;
+        }
+        
+        .modular-module input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            cursor: pointer;
+            margin-top: 2px;
+            accent-color: #2c460a;
+            flex-shrink: 0;
+        }
+        
+        .modular-module label {
+            flex: 1;
+            cursor: pointer;
+            margin: 0;
+            user-select: none;
+        }
+        
+        .modular-module h4 {
+            color: #f5f1e8;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .modular-module p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 5px;
+            line-height: 1.5;
+        }
+        
+        .modular-module .price {
+            font-weight: 600;
+            color: #f5f1e8;
+            margin-top: 8px;
+            display: block;
         }
 
         .plan-card {
@@ -461,6 +628,37 @@
             cursor: not-allowed;
         }
 
+        .agreement-group {
+            margin: 16px 0;
+            padding: 12px;
+            background: rgba(44, 70, 10, 0.06);
+            border-radius: 8px;
+            border: 1px solid rgba(44, 70, 10, 0.15);
+        }
+        .agreement-group label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #2b2b2b;
+            line-height: 1.5;
+        }
+        .agreement-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        .agreement-group a {
+            color: #2c460a;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+        .agreement-group a:hover {
+            color: #4A5230;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
@@ -477,6 +675,26 @@
             
             .features-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .payment-options {
+                font-size: 0.85rem;
+            }
+            
+            .modular-modules {
+                font-size: 0.9rem;
+            }
+            
+            .modular-module {
+                padding: 12px;
+            }
+            
+            .modular-module h4 {
+                font-size: 0.95rem;
+            }
+            
+            .modular-module p {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -496,8 +714,14 @@
             <a href="index.html#hakkimizda">Hakkımızda</a>
             <a href="index.html#hizmetler">Hizmetler</a>
             <a href="index.html#iletisim">İletişim</a>
-            <a href="uyelik.html">Üyelik</a>
-            <!-- <a href="uyelik-giris.html">Üye Girişi</a> --> <!-- Deaktif - daha sonra tekrar aktif edilecek -->
+            <a href="uyelik.html" id="membership-link">Üyelik</a>
+            <a href="uyelik-giris.html" id="login-link">Üye Girişi</a>
+            <a href="kullanici-panel.html" id="panel-link" style="display: none;">Panelim</a>
+            <a href="sepet.html" class="cart-icon" id="cart-link">
+                <span>🛒</span>
+                <span>Sepet</span>
+                <div class="cart-badge" id="cart-badge" style="display: none;">0</div>
+            </a>
         </div>
     </nav>
     <!-- Eski header gizlendi; yukarıda ana menü kullanılıyor -->
@@ -505,9 +729,9 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Nörogastronomi Uzmanlığına Katıl</h1>
+            <h1>Şimdi Başlayın: Nörogastronomi Danışmanlığı</h1>
             <p class="subtitle">Bilimsel yaklaşımla gastronomi deneyimini dönüştür</p>
-            <p class="price">İlk 2 ay ücretsiz, sonra ayda ₺299</p>
+            <p class="price">Tek Seferlik Ödeme ile Hizmet Alın</p>
             <a href="#plans" class="cta-button">Üyeliğe Başla</a>
         </div>
     </section>
@@ -554,52 +778,157 @@
     <!-- Plans Section -->
     <section class="plans" id="plans">
         <div class="container">
-            <h2>Size Uygun Planı Seçin</h2>
-            <p class="subtitle">Nörogastronomi uzmanlığında farklı seviyelerde hizmet alın</p>
+            <h2>Size Uygun Paketi Seçin</h2>
+            <p class="subtitle">Tek seferlik ödeme ile nörogastronomi danışmanlık hizmetlerimizden yararlanın</p>
             
             <div class="plans-grid">
                 <div class="plan-card">
-                    <h3 class="plan-name">Başlangıç</h3>
-                    <div class="plan-price">₺199</div>
-                    <div class="plan-period">aylık</div>
+                    <h3 class="plan-name">Duyusal Başlangıç Modülü</h3>
+                    <div class="plan-price">₺21.588</div>
+                    <div class="plan-period">tek seferlik ödeme</div>
+                    <p style="text-align: left; margin-bottom: 20px; font-size: 0.95rem; opacity: 0.9; line-height: 1.6;">
+                        İşletmenizin menü ve misafir deneyimini nörobilim temelli yaklaşımlarla güçlendiren giriş seviyesindeki danışmanlık paketimizdir. Nöro-Deneyim Menü Rehberi, Mikro Duyusal Değerlendirme ve Algı & Lezzet Geri Bildirim Formu ile menünüzün beyinle uyumlu hale gelmesini sağlar.
+                    </p>
                     <ul class="plan-features">
-                        <li>✓ Temel nörogastro analizi</li>
-                        <li>✓ 2 saat danışmanlık</li>
-                        <li>✓ E-posta desteği</li>
-                        <li>✓ Temel raporlar</li>
+                        <li>✓ Nöro-Deneyim Menü Rehberi</li>
+                        <li>✓ Mikro Duyusal Değerlendirme</li>
+                        <li>✓ Algı ve Lezzet Deneyimi Geri Bildirim Formu</li>
+                        <li>✓ Online Operasyon & Sunum Uygulama Oturumu (Ekip)</li>
                     </ul>
-                    <button class="plan-button" onclick="openRegisterModal('baslangic', 'Başlangıç', '₺199')">Planı Seç</button>
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'duyusal-baslangic', 'pesin', 19429, 'Peşin Ödeme', '₺19.429 (Tek Seferlik)')">
+                            <input type="radio" name="payment-duyusal-baslangic" id="duyusal-pesin" value="pesin" checked>
+                            <label for="duyusal-pesin" style="cursor: pointer;">
+                                <strong>1) Peşin Ödeme (Havale/EFT) – Avantajlı</strong>
+                                <span class="price">%10 İndirimle ₺19.429 (Tek Seferlik)</span>
+                            </label>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'duyusal-baslangic', '6taksit', 3418, '6 Taksit', '₺3.418 x 6 Taksit')">
+                            <input type="radio" name="payment-duyusal-baslangic" id="duyusal-6taksit" value="6taksit">
+                            <label for="duyusal-6taksit" style="cursor: pointer;">
+                                <strong>2) 6 Taksit</strong>
+                                <span class="price">₺3.418 x 6 Taksit (Toplam: ₺20.508)</span>
+                            </label>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'duyusal-baslangic', '12taksit', 1799, '12 Taksit', '₺1.799 x 12 Taksit')">
+                            <input type="radio" name="payment-duyusal-baslangic" id="duyusal-12taksit" value="12taksit">
+                            <label for="duyusal-12taksit" style="cursor: pointer;">
+                                <strong>3) 12 Taksit</strong>
+                                <span class="price">₺1.799 x 12 Taksit (Toplam: ₺21.588)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('duyusal-baslangic', 'Duyusal Başlangıç Modülü')">Sepete Ekle</button>
                 </div>
 
                 <div class="plan-card featured">
-                    <h3 class="plan-name">Profesyonel</h3>
-                    <div class="plan-price">₺299</div>
-                    <div class="plan-period">aylık</div>
+                    <h3 class="plan-name">Nöro-Deneyim Gelişim Modülü</h3>
+                    <div class="plan-price">₺34.155</div>
+                    <div class="plan-period">tek seferlik ödeme</div>
+                    <p style="text-align: left; margin-bottom: 20px; font-size: 0.95rem; opacity: 0.9; line-height: 1.6;">
+                        İşletmenizin menü, servis deneyimi ve marka algısını nörogastronomi prensipleriyle yeniden yapılandırmayı hedefleyen kapsamlı bir gelişim modülüdür. Menü tasarımından duyusal analizlere, strateji toplantılarından ekip workshop'larına kadar uzanan yapısıyla, misafir deneyiminizi bilimsel temellerde sürdürülebilir bir gelişim modeli sunar.
+                    </p>
                     <ul class="plan-features">
-                        <li>✓ Kapsamlı nörogastro analizi</li>
-                        <li>✓ 5 saat danışmanlık</li>
-                        <li>✓ Telefon + e-posta desteği</li>
-                        <li>✓ Detaylı raporlar</li>
-                        <li>✓ Menü tasarım desteği</li>
-                        <li>✓ Aylık değerlendirme</li>
+                        <li>✓ Stratejik Yönlendirme Görüşmesi (Yıllık)</li>
+                        <li>✓ Nöro-Deneyim Menü Rehberi – Gelişmiş Sürüm</li>
+                        <li>✓ A/B Test Destekli Menü & Sunum Optimizasyonu</li>
+                        <li>✓ Tam Kapsamlı Mikro Duyusal Analiz (Menü + Mekân)</li>
+                        <li>✓ Uygulamalı Operasyon & Sunum Workshop'u (Ekip)</li>
+                        <li>✓ Müşteri Deneyimi Gelişim Workshop'u (Yıllık)</li>
+                        <li>✓ Aylık Performans & KPI İzleme Raporları</li>
                     </ul>
-                    <button class="plan-button" onclick="openRegisterModal('profesyonel', 'Profesyonel', '₺299')">Planı Seç</button>
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'noro-deneyim-gelisim', 'pesin', 34155, 'Peşin Ödeme', '₺34.155 (Tek Seferlik)')">
+                            <input type="radio" name="payment-noro-deneyim-gelisim" id="noro-pesin" value="pesin" checked>
+                            <label for="noro-pesin" style="cursor: pointer;">
+                                <strong>1) Peşin Ödeme (Havale/EFT) – Avantajlı</strong>
+                                <span class="price">%10 İndirimle ₺34.155 (Tek Seferlik)</span>
+                            </label>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'noro-deneyim-gelisim', '6taksit', 6008.75, '6 Taksit', '₺6.008,75 x 6 Taksit')">
+                            <input type="radio" name="payment-noro-deneyim-gelisim" id="noro-6taksit" value="6taksit">
+                            <label for="noro-6taksit" style="cursor: pointer;">
+                                <strong>2) 6 Taksit</strong>
+                                <span class="price">₺6.008,75 x 6 Taksit (Toplam: ₺36.052,50)</span>
+                            </label>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'noro-deneyim-gelisim', '12taksit', 3162.50, '12 Taksit', '₺3.162,50 x 12 Taksit')">
+                            <input type="radio" name="payment-noro-deneyim-gelisim" id="noro-12taksit" value="12taksit">
+                            <label for="noro-12taksit" style="cursor: pointer;">
+                                <strong>3) 12 Taksit</strong>
+                                <span class="price">₺3.162,50 x 12 Taksit (Toplam: ₺37.950)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('noro-deneyim-gelisim', 'Nöro-Deneyim Gelişim Modülü')">Sepete Ekle</button>
                 </div>
 
                 <div class="plan-card">
-                    <h3 class="plan-name">Kurumsal</h3>
-                    <div class="plan-price">₺499</div>
-                    <div class="plan-period">aylık</div>
-                    <ul class="plan-features">
-                        <li>✓ Tam kapsamlı analiz</li>
-                        <li>✓ Sınırsız danışmanlık</li>
-                        <li>✓ 7/24 destek</li>
-                        <li>✓ Özel raporlar</li>
-                        <li>✓ Ekip eğitimleri</li>
-                        <li>✓ Marka stratejisi</li>
-                        <li>✓ Özel projeler</li>
-                    </ul>
-                    <button class="plan-button" onclick="openRegisterModal('kurumsal', 'Kurumsal', '₺499')">Planı Seç</button>
+                    <h3 class="plan-name">Modüler Nörogastronomi Sistemi</h3>
+                    <div class="plan-price">Kendi Paketinizi Oluşturun</div>
+                    <div class="plan-period">ihtiyaca göre</div>
+                    <p style="text-align: left; margin-bottom: 20px; font-size: 0.95rem; opacity: 0.9; line-height: 1.6;">
+                        Her işletmenin operasyonel gereksinimleri ve stratejik hedefleri farklıdır. Bu nedenle premium danışmanlık modelimiz, işletmelerin kendi ihtiyaçlarına uygun bir hizmet paketi oluşturabilmeleri için modüler ve esnek bir yapı sunar. Analiz, optimizasyon, eğitim ve strateji modüllerinden dilediklerinizi seçerek; bütçenize, hedefinize ve kurum kültürünüze en uygun danışmanlık kapsamını belirleyebilirsiniz.
+                    </p>
+                    <div class="modular-modules">
+                        <div class="modular-module" onclick="toggleModularModule(this, event)">
+                            <input type="checkbox" id="modul-1" value="15000" data-name="1 Yıllık Uygulamalı Operasyon & Sunum Workshop'u" onchange="checkModularSelection();">
+                            <label for="modul-1">
+                                <h4>1. 1 Yıllık Uygulamalı Operasyon & Sunum Workshop'u</h4>
+                                <p>Misafir deneyimini artıran operasyonel akışlar, tabak sunumları ve servis detayları ekiple birlikte uygulamalı olarak geliştirilir. İşletmenin günlük performansı modern duyusal ve nörogastronomik prensiplere göre optimize edilir.</p>
+                                <span class="price">₺15.000</span>
+                            </label>
+                        </div>
+                        <div class="modular-module" onclick="toggleModularModule(this, event)">
+                            <input type="checkbox" id="modul-2" value="9000" data-name="1 Yıllık NöroGastro Mekân Deneyim Analizi" onchange="checkModularSelection();">
+                            <label for="modul-2">
+                                <h4>2. 1 Yıllık NöroGastro Mekân Deneyim Analizi</h4>
+                                <p>Işık, koku, ses, masa düzeni ve mekân akışı gibi duyusal unsurlar bilimsel yöntemlerle analiz edilir. İşletmenin misafir üzerindeki ilk etki, duyusal uyaranlar ve karar verme süreçleri doğrultusunda güçlendirilir.</p>
+                                <span class="price">₺9.000</span>
+                            </label>
+                        </div>
+                        <div class="modular-module" onclick="toggleModularModule(this, event)">
+                            <input type="checkbox" id="modul-3" value="6900" data-name="1 Yıllık Dijital NöroGastro Menü" onchange="checkModularSelection();">
+                            <label for="modul-3">
+                                <h4>3. 1 Yıllık Dijital NöroGastro Menü</h4>
+                                <p>Menü metinleri, fotoğraflar ve kategori düzeni beyin odaklı karar mekanizmalarına göre optimize edilir. Misafirlerin seçim hızını artıran, kârlılığı yükselten, kolay okunur ve dönüştüren bir dijital menü oluşturulur.</p>
+                                <span class="price">₺6.900</span>
+                            </label>
+                        </div>
+                        <div class="modular-module" onclick="toggleModularModule(this, event)">
+                            <input type="checkbox" id="modul-4" value="3900" data-name="Aylık Deneyim Performansı & KPI Mini Raporu" onchange="checkModularSelection();">
+                            <label for="modul-4">
+                                <h4>4. Aylık Deneyim Performansı & KPI Mini Raporu</h4>
+                                <p>Aylık deneyim göstergeleri, davranışsal veriler ve satış ilişkili metrikler değerlendirilir. İşletme, misafir memnuniyeti ve kârlılık açısından hangi noktada güçlenmesi gerektiğini net bir şekilde görür.</p>
+                                <span class="price">₺3.900</span>
+                            </label>
+                        </div>
+                        <div class="modular-module" onclick="toggleModularModule(this, event)">
+                            <input type="checkbox" id="modul-5" value="5900" data-name="Nörogastronomi Temel Eğitimi (Online)" onchange="checkModularSelection();">
+                            <label for="modul-5">
+                                <h4>5. Nörogastronomi Temel Eğitimi (Online)</h4>
+                                <p>Ekip, tat, koku, doku, algı, karar verme ve duyusal psikoloji gibi temel nörogastronomi prensiplerini öğrenir. İşletme, bilimsel bilgiyle desteklenmiş hizmet standardını günlük operasyonlarına taşır.</p>
+                                <span class="price">₺5.900</span>
+                            </label>
+                        </div>
+                        <div class="modular-module" onclick="toggleModularModule(this, event)">
+                            <input type="checkbox" id="modul-6" value="2900" data-name="Aylık Misafir Geri Bildirim Formu Tasarımı" onchange="checkModularSelection();">
+                            <label for="modul-6">
+                                <h4>6. Aylık Misafir Geri Bildirim Formu Tasarımı</h4>
+                                <p>İşletmenin hedeflerine özel, davranış psikolojisine uygun geri bildirim formu tasarlanır. Misafir duygu ve deneyimini daha doğru ölçen, yönlendirici ve aksiyon alınabilir sonuçlar üretir.</p>
+                                <span class="price">₺2.900</span>
+                            </label>
+                        </div>
+                        <div class="modular-module" onclick="toggleModularModule(this, event)">
+                            <input type="checkbox" id="modul-7" value="1900" data-name="Aylık NöroGastro Sosyal Medya İçerik Seti" onchange="checkModularSelection();">
+                            <label for="modul-7">
+                                <h4>7. Aylık NöroGastro Sosyal Medya İçerik Seti</h4>
+                                <p>Misafir algısını güçlendiren, nörogastronomik içgörülerle hazırlanmış aylık içerik temaları oluşturulur. İşletmenin dijital kimliği güçlenir, daha yüksek merak ve ziyaret motivasyonu sağlanır.</p>
+                                <span class="price">₺1.900</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addModularToCart()" id="modular-add-btn" style="display: none;">Seçilen Modülleri Sepete Ekle</button>
                 </div>
             </div>
         </div>
@@ -677,6 +1006,12 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 Norogastro. Tüm hakları saklıdır.</p>
+                <p style="margin-top: 10px; font-size: 0.85rem;">
+                    <a href="kvkk.html" style="color: #999; margin: 0 8px;">KVKK</a>
+                    <a href="uyelik-sozlesmesi.html" style="color: #999; margin: 0 8px;">Üyelik Sözleşmesi</a>
+                    <a href="mesafeli-satis-sozlesmesi.html" style="color: #999; margin: 0 8px;">Mesafeli Satış</a>
+                    <a href="cerez-politikasi.html" style="color: #999; margin: 0 8px;">Çerez Politikası</a>
+                </p>
             </div>
         </div>
     </footer>
@@ -719,12 +1054,25 @@
                     <div class="form-group">
                         <label for="reg-password">Şifre *</label>
                         <input type="password" id="reg-password" name="password" required minlength="6">
-                        <small style="color: #666; font-size: 0.9rem;">En az 6 karakter</small>
+                        <small style="color: #666; font-size: 0.9rem; display: block; margin-top: 5px;">En az 6 karakter</small>
                     </div>
                     
                     <div class="form-group">
                         <label for="reg-password-confirm">Şifre Tekrar *</label>
                         <input type="password" id="reg-password-confirm" name="password_confirm" required minlength="6">
+                    </div>
+
+                    <div class="agreement-group">
+                        <label>
+                            <input type="checkbox" id="agreeKvkk" name="agree_kvkk" required>
+                            <span><a href="kvkk.html" target="_blank" rel="noopener">KVKK Aydınlatma Metni</a>'ni okudum, kişisel verilerimin işlenmesini kabul ediyorum. *</span>
+                        </label>
+                    </div>
+                    <div class="agreement-group">
+                        <label>
+                            <input type="checkbox" id="agreeUyelik" name="agree_uyelik" required>
+                            <span><a href="uyelik-sozlesmesi.html" target="_blank" rel="noopener">Üyelik Sözleşmesi</a>'ni okudum, kabul ediyorum. *</span>
+                        </label>
                     </div>
                     
                     <button type="submit" class="register-submit-btn" id="registerSubmitBtn">Kayıt Ol</button>
@@ -829,6 +1177,11 @@
                 alert('Şifre en az 6 karakter olmalıdır.');
                 return;
             }
+
+            if (!document.getElementById('agreeKvkk').checked || !document.getElementById('agreeUyelik').checked) {
+                alert('Lütfen KVKK Aydınlatma Metni ve Üyelik Sözleşmesi\'ni kabul ediniz.');
+                return;
+            }
             
             // E-posta format kontrolü
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -850,11 +1203,17 @@
                     body: JSON.stringify(formData)
                 });
                 
+                // Response'un başarılı olup olmadığını kontrol et
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const result = await response.json();
                 
                 if (result.success) {
-                    alert('Kayıt başarılı! Yönlendiriliyorsunuz...');
-                    window.location.href = 'index.html';
+                    // Plan bilgisini URL parametresi olarak ödeme sayfasına gönder
+                    const planParam = encodeURIComponent(selectedPlanValue);
+                    window.location.href = `odeme.html?plan=${planParam}`;
                 } else {
                     alert(result.message || 'Kayıt başarısız. Lütfen tekrar deneyin.');
                     submitBtn.disabled = false;
@@ -862,11 +1221,234 @@
                 }
             } catch (error) {
                 console.error('Kayıt hatası:', error);
-                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+                let errorMessage = 'Bir hata oluştu. Lütfen tekrar deneyin.';
+                
+                // Hata tipine göre mesaj
+                if (error.message.includes('JSON')) {
+                    errorMessage = 'Sunucudan geçersiz yanıt alındı. PHP backend çalışmıyor olabilir.';
+                } else if (error.message.includes('HTTP')) {
+                    errorMessage = 'Sunucu hatası: ' + error.message;
+                } else if (error.message.includes('Load failed') || error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Backend sunucusuna bağlanılamadı.\n\nLütfen PHP backend sunucusunun çalıştığından emin olun.';
+                }
+                
+                alert(errorMessage);
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
             }
         });
+
+        // Payment option selection
+        let selectedPaymentOptions = {}; // Store selected payment options for each plan
+
+        function selectPaymentOption(element, planId, optionType, price, optionName, priceText) {
+            // Remove selected class from all options in this plan
+            const planCard = element.closest('.plan-card');
+            planCard.querySelectorAll('.payment-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            
+            // Mark the radio button as checked
+            const radio = element.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+            }
+            
+            // Store selected option
+            selectedPaymentOptions[planId] = {
+                type: optionType,
+                price: price,
+                name: optionName,
+                priceText: priceText
+            };
+            
+            // Show add to cart button
+            const addToCartBtn = planCard.querySelector('.add-to-cart-btn');
+            if (addToCartBtn) {
+                addToCartBtn.classList.add('active');
+            }
+        }
+
+        // Add to cart function for regular plans
+        function addToCart(planId, planName) {
+            const selectedOption = selectedPaymentOptions[planId];
+            
+            if (!selectedOption) {
+                alert('Lütfen önce bir ödeme seçeneği seçin.');
+                return;
+            }
+            
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const item = {
+                id: `${planId}-${selectedOption.type}`,
+                planId: planId,
+                name: `${planName} - ${selectedOption.name}`,
+                price: selectedOption.price,
+                priceText: selectedOption.priceText,
+                quantity: 1
+            };
+            
+            // Check if item already exists in cart
+            const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+            if (existingItemIndex > -1) {
+                alert('Bu ürün zaten sepetinizde!');
+            } else {
+                cart.push(item);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartBadge();
+                alert(`${item.name} sepete eklendi!`);
+            }
+        }
+
+        // Modular module functions
+        function toggleModularModule(element, event) {
+            // If clicked directly on checkbox or label, let the default behavior handle it
+            if (event && (event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL')) {
+                return;
+            }
+            
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+                checkModularSelection();
+            }
+        }
+
+        function updateModularModuleStyle(element, isChecked) {
+            if (isChecked) {
+                element.classList.add('selected');
+            } else {
+                element.classList.remove('selected');
+            }
+        }
+
+        function checkModularSelection() {
+            const checkboxes = document.querySelectorAll('.modular-module input[type="checkbox"]');
+            const selectedModules = Array.from(checkboxes).filter(cb => cb.checked);
+            const addBtn = document.getElementById('modular-add-btn');
+            
+            // Update style for all modules
+            checkboxes.forEach(checkbox => {
+                const module = checkbox.closest('.modular-module');
+                if (module) {
+                    updateModularModuleStyle(module, checkbox.checked);
+                }
+            });
+            
+            if (selectedModules.length > 0) {
+                if (addBtn) {
+                    addBtn.style.display = 'block';
+                    addBtn.classList.add('active');
+                }
+            } else {
+                if (addBtn) {
+                    addBtn.style.display = 'none';
+                    addBtn.classList.remove('active');
+                }
+            }
+        }
+
+        function addModularToCart() {
+            const checkboxes = document.querySelectorAll('.modular-module input[type="checkbox"]:checked');
+            
+            if (checkboxes.length === 0) {
+                alert('Lütfen en az bir modül seçin.');
+                return;
+            }
+            
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let addedCount = 0;
+            
+            checkboxes.forEach(checkbox => {
+                const moduleName = checkbox.getAttribute('data-name');
+                const modulePrice = parseFloat(checkbox.value);
+                const moduleId = checkbox.id;
+                
+                const item = {
+                    id: `moduler-${moduleId}`,
+                    planId: 'moduler',
+                    name: `Modüler Sistem - ${moduleName}`,
+                    price: modulePrice,
+                    priceText: `₺${modulePrice.toLocaleString('tr-TR')}`,
+                    quantity: 1
+                };
+                
+                // Check if item already exists in cart
+                const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+                if (existingItemIndex === -1) {
+                    cart.push(item);
+                    addedCount++;
+                }
+            });
+            
+            if (addedCount > 0) {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartBadge();
+                alert(`${addedCount} modül sepete eklendi!`);
+                
+                // Uncheck all checkboxes after adding
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                checkModularSelection();
+            } else {
+                alert('Seçilen modüller zaten sepette!');
+            }
+        }
+
+        // Update cart badge
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const badge = document.getElementById('cart-badge');
+            if (badge) {
+                if (cart.length > 0) {
+                    badge.textContent = cart.length;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        // Initialize cart badge and check login status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            checkLoginStatus();
+        });
+        
+        // Check if user is logged in and update menu
+        function checkLoginStatus() {
+            fetch('user-info.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.user) {
+                        // User is logged in - hide login/membership links, show panel link
+                        const loginLink = document.getElementById('login-link');
+                        const membershipLink = document.getElementById('membership-link');
+                        const panelLink = document.getElementById('panel-link');
+                        
+                        if (loginLink) loginLink.style.display = 'none';
+                        if (membershipLink) membershipLink.style.display = 'none';
+                        if (panelLink) panelLink.style.display = 'block';
+                    } else {
+                        // User is not logged in - show login/membership links, hide panel link
+                        const loginLink = document.getElementById('login-link');
+                        const membershipLink = document.getElementById('membership-link');
+                        const panelLink = document.getElementById('panel-link');
+                        
+                        if (loginLink) loginLink.style.display = 'block';
+                        if (membershipLink) membershipLink.style.display = 'block';
+                        if (panelLink) panelLink.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    // If error, assume not logged in
+                    console.error('Login status check failed:', error);
+                });
+        }
     </script>
 </body>
 </html>

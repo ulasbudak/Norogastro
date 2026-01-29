@@ -4,6 +4,7 @@ database.db
 
 # PHP hata logları
 *.log
+error_log
 
 # Sistem dosyaları
 .DS_Store
@@ -15,6 +16,10 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Production dosyaları (güvenlik)
+# create-admin.php - Şifre korumalı, production'da dikkatli kullanın
+# view-users.php - Production'da silin veya şifreleyin
 
 
 

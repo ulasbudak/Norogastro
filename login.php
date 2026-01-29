@@ -3,13 +3,14 @@
  * Kullanıcı giriş endpoint'i
  */
 
+require_once 'config.php';
+setCORSHeaders();
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
 
 require_once 'database.php';
 require_once 'session.php';
+require_once 'security.php';
 
 // Sadece POST isteklerini kabul et
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -26,8 +27,19 @@ if (empty($input)) {
     $input = $_POST;
 }
 
+// Rate limiting kontrolü
+$rateLimitKey = 'login_' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+if (!checkRateLimit($rateLimitKey, 5, 300)) {
+    http_response_code(429);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Çok fazla deneme yaptınız. Lütfen 5 dakika sonra tekrar deneyin.'
+    ]);
+    exit;
+}
+
 // Veri validasyonu
-$email = filter_var($input['email'] ?? '', FILTER_SANITIZE_EMAIL);
+$email = sanitizeInput($input['email'] ?? '', 'email');
 $password = $input['password'] ?? '';
 
 // Validasyon kontrolleri

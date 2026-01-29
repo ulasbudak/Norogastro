@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sepetim - Norogastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #2c460a, #4A5230);
+            color: #2b2b2b;
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 241, 232, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 0 24px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .top-nav .brand img.logo {
+            height: 50px;
+        }
+
+        .top-nav .menu {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .top-nav .menu a {
+            color: #2c460a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .top-nav .menu a:hover {
+            color: #4A5230;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #2c460a;
+            transition: all 0.3s ease;
+        }
+
+        /* Cart Section */
+        .cart-section {
+            padding: 40px 0;
+            min-height: 60vh;
+        }
+
+        .cart-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cart-header h1 {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2.5rem;
+            color: #f5f1e8;
+            margin-bottom: 10px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(245, 241, 232, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            color: #f5f1e8;
+        }
+
+        .cart-empty h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .cart-empty p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #f5f1e8, #e8e0d0);
+            color: #2c460a;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 241, 232, 0.3);
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .cart-item {
+            background: rgba(245, 241, 232, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid rgba(245, 241, 232, 0.2);
+        }
+
+        .cart-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .cart-item-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #f5f1e8;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f5f1e8;
+        }
+
+        .cart-item-details {
+            color: #f5f1e8;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-modules {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(245, 241, 232, 0.2);
+        }
+
+        .cart-item-modules h4 {
+            color: #f5f1e8;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-modules ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .cart-item-modules li {
+            color: #f5f1e8;
+            opacity: 0.9;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .cart-item-modules li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #f5f1e8;
+        }
+
+        .remove-btn {
+            background: rgba(220, 53, 69, 0.2);
+            color: #f5f1e8;
+            border: 1px solid rgba(220, 53, 69, 0.5);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .remove-btn:hover {
+            background: rgba(220, 53, 69, 0.4);
+            border-color: rgba(220, 53, 69, 0.7);
+        }
+
+        .cart-summary {
+            margin-top: 40px;
+            background: rgba(245, 241, 232, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(245, 241, 232, 0.2);
+        }
+
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            color: #f5f1e8;
+            font-size: 1.1rem;
+        }
+
+        .cart-summary-row.total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-top: 2px solid rgba(245, 241, 232, 0.3);
+            margin-top: 15px;
+            padding-top: 15px;
+        }
+
+        .cart-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: rgba(245, 241, 232, 0.2);
+            color: #f5f1e8;
+            padding: 12px 30px;
+            border: 2px solid rgba(245, 241, 232, 0.3);
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(245, 241, 232, 0.3);
+            border-color: rgba(245, 241, 232, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .top-nav {
+                height: 64px;
+                padding: 0 14px;
+            }
+
+            .top-nav .brand img.logo {
+                height: 44px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .top-nav .menu {
+                position: absolute;
+                top: 64px;
+                left: 50%;
+                right: auto;
+                display: none;
+                flex-direction: column;
+                gap: 6px;
+                background: rgba(245, 241, 232, 0.96);
+                backdrop-filter: blur(6px);
+                padding: 10px 14px 14px;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+                z-index: 1001;
+                transform: translateX(-50%);
+                width: 86vw !important;
+                max-width: 380px !important;
+            }
+
+            .top-nav .menu.open {
+                display: flex;
+            }
+
+            .top-nav .menu a {
+                padding: 12px 12px;
+                border-radius: 10px;
+                font-size: 0.95rem;
+            }
+
+            .cart-header h1 {
+                font-size: 2rem;
+            }
+
+            .cart-item-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .cart-actions {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="brand" aria-label="Norogastro Anasayfa">
+            <img src="LOGO.png" alt="Norogastro" class="logo">
+        </a>
+        <button class="menu-toggle" aria-label="Menüyü aç/kapat">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="menu">
+            <a href="index.html#hakkimizda">Hakkımızda</a>
+            <a href="index.html#hizmetler">Hizmetler</a>
+            <a href="index.html#iletisim">İletişim</a>
+            <a href="uyelik.html" id="membership-link">Üyelik</a>
+            <a href="uyelik-giris.html" id="login-link">Üye Girişi</a>
+            <a href="kullanici-panel.html" id="panel-link" style="display: none;">Panelim</a>
+        </div>
+    </nav>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <div class="cart-header">
+                <h1>Sepetim</h1>
+            </div>
+
+            <div id="cart-content">
+                <!-- Cart items will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.querySelector('.menu-toggle');
+            const menu = document.querySelector('.top-nav .menu');
+            if (toggle && menu) {
+                toggle.addEventListener('click', () => {
+                    menu.classList.toggle('open');
+                });
+            }
+
+            checkLoginStatus();
+            loadCart();
+        });
+        
+        // Check if user is logged in and update menu
+        function checkLoginStatus() {
+            fetch('user-info.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.user) {
+                        // User is logged in - hide login/membership links, show panel link
+                        const loginLink = document.getElementById('login-link');
+                        const membershipLink = document.getElementById('membership-link');
+                        const panelLink = document.getElementById('panel-link');
+                        
+                        if (loginLink) loginLink.style.display = 'none';
+                        if (membershipLink) membershipLink.style.display = 'none';
+                        if (panelLink) panelLink.style.display = 'block';
+                    } else {
+                        // User is not logged in - show login/membership links, hide panel link
+                        const loginLink = document.getElementById('login-link');
+                        const membershipLink = document.getElementById('membership-link');
+                        const panelLink = document.getElementById('panel-link');
+                        
+                        if (loginLink) loginLink.style.display = 'block';
+                        if (membershipLink) membershipLink.style.display = 'block';
+                        if (panelLink) panelLink.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    // If error, assume not logged in
+                    console.error('Login status check failed:', error);
+                });
+        }
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartContent = document.getElementById('cart-content');
+
+            if (cart.length === 0) {
+                cartContent.innerHTML = `
+                    <div class="cart-empty">
+                        <h2>Sepetiniz Boş</h2>
+                        <p>Henüz sepetinize ürün eklenmemiş.</p>
+                        <a href="uyelik.html" class="btn-primary">Paketleri İncele</a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="cart-items">';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                // Handle both old format (planName, paymentLabel) and new format (name, priceText)
+                const itemName = item.planName || item.name || 'Ürün';
+                const itemDetails = item.paymentLabel || (item.priceText ? item.priceText : '');
+                
+                // Format price - use priceText if available, otherwise format price number
+                let itemPriceDisplay;
+                if (item.priceText) {
+                    itemPriceDisplay = item.priceText;
+                } else if (item.priceLabel) {
+                    itemPriceDisplay = item.priceLabel;
+                } else if (item.price) {
+                    itemPriceDisplay = '₺' + parseFloat(item.price).toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                } else {
+                    itemPriceDisplay = '₺0.00';
+                }
+                
+                const itemTotal = parseFloat(item.price) || 0;
+                total += itemTotal;
+
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-header">
+                            <div>
+                                <div class="cart-item-title">${itemName}</div>
+                                ${itemDetails ? `<div class="cart-item-details">${itemDetails}</div>` : ''}
+                            </div>
+                            <div class="cart-item-price">${itemPriceDisplay}</div>
+                        </div>
+                        ${item.modules ? `
+                            <div class="cart-item-modules">
+                                <h4>Seçilen Modüller:</h4>
+                                <ul>
+                                    ${item.modules.map(m => `<li>${m.name} - ₺${m.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        <button class="remove-btn" onclick="removeFromCart(${index})">Kaldır</button>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+
+            html += `
+                <div class="cart-summary">
+                    <div class="cart-summary-row total">
+                        <span>Toplam</span>
+                        <span>₺${total.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+                    </div>
+                    <div class="cart-actions">
+                        <a href="uyelik.html" class="btn-secondary">Alışverişe Devam Et</a>
+                        <button onclick="goToPayment()" class="btn-primary" style="border: none; font-family: inherit;">Ödemeye Geç</button>
+                    </div>
+                </div>
+            `;
+
+            cartContent.innerHTML = html;
+        }
+
+        function removeFromCart(index) {
+            if (confirm('Bu ürünü sepetten kaldırmak istediğinize emin misiniz?')) {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.splice(index, 1);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                loadCart();
+                
+                // Badge'i güncelle - eğer uyelik.html açıksa
+                if (window.opener && typeof window.opener.updateCartBadge === 'function') {
+                    window.opener.updateCartBadge();
+                }
+            }
+        }
+
+        function goToPayment() {
+            // Kullanıcı giriş kontrolü
+            fetch('user-info.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Giriş yapılmış, ödeme sayfasına git
+                        window.location.href = 'odeme.html';
+                    } else {
+                        // Giriş yapılmamış, giriş sayfasına yönlendir
+                        if (confirm('Ödeme yapmak için giriş yapmanız gerekiyor. Giriş sayfasına yönlendirilsin mi?')) {
+                            window.location.href = 'uyelik-giris.html?redirect=odeme.html';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Giriş kontrolü hatası:', error);
+                    if (confirm('Ödeme yapmak için giriş yapmanız gerekiyor. Giriş sayfasına yönlendirilsin mi?')) {
+                        window.location.href = 'uyelik-giris.html?redirect=odeme.html';
+                    }
+                });
+        }
+
+        // Update cart badge when page loads (for when user navigates back)
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // This will be called from parent window if needed
+        }
+    </script>
+    <footer style="text-align: center; padding: 24px 20px; color: rgba(245,241,232,0.7); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px;">
+        <p>&copy; 2025 Norogastro. <a href="kvkk.html" style="color: rgba(245,241,232,0.8); margin: 0 6px;">KVKK</a> <a href="uyelik-sozlesmesi.html" style="color: rgba(245,241,232,0.8); margin: 0 6px;">Üyelik Sözleşmesi</a> <a href="mesafeli-satis-sozlesmesi.html" style="color: rgba(245,241,232,0.8); margin: 0 6px;">Mesafeli Satış</a> <a href="cerez-politikasi.html" style="color: rgba(245,241,232,0.8); margin: 0 6px;">Çerez Politikası</a></p>
+    </footer>
+</body>
+</html>

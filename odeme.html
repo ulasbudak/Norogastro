@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ödeme - Norogastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #2c460a 0%, #4A5230 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            background: rgba(245, 241, 232, 0.0);
+            color: #2b2b2b;
+            z-index: 1000;
+        }
+
+        .top-nav .brand {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #2b2b2b;
+        }
+
+        .top-nav .brand img.logo {
+            height: 64px;
+            width: auto;
+        }
+
+        /* Payment Card */
+        .payment-card {
+            background: rgba(245, 241, 232, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            color: #2b2b2b;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .payment-card h1 {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #2c460a;
+        }
+
+        .payment-card .subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .plan-summary {
+            background: rgba(44, 70, 10, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #2c460a;
+        }
+
+        .plan-summary h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #2c460a;
+        }
+
+        .plan-summary .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c460a;
+            margin-top: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2b2b2b;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(44, 70, 10, 0.2);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #2b2b2b;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2c460a;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #2c460a, #4A5230);
+            color: #f5f1e8;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 70, 10, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .agreement-group {
+            margin: 20px 0;
+            padding: 14px;
+            background: rgba(44, 70, 10, 0.08);
+            border-radius: 8px;
+            border: 1px solid rgba(44, 70, 10, 0.2);
+        }
+        .agreement-group label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #2b2b2b;
+            line-height: 1.5;
+        }
+        .agreement-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        .agreement-group a {
+            color: #2c460a;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+        .agreement-group a:hover {
+            color: #4A5230;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .error-message {
+            background: #ff4444;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .payment-card {
+                padding: 25px;
+            }
+
+            .payment-card h1 {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .top-nav {
+                height: 64px;
+                padding: 0 14px;
+            }
+
+            .top-nav .brand img.logo {
+                height: 44px;
+            }
+
+            body {
+                padding-top: 64px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="brand">
+            <img src="LOGO.png" alt="Norogastro" class="logo">
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="payment-card">
+            <h1>Ödeme İşlemi</h1>
+            <p class="subtitle">Seçtiğiniz plan için ödeme yapın</p>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="plan-summary" id="planSummary">
+                <h3>Sepetiniz</h3>
+                <div id="cartItemsList"></div>
+                <div class="price" id="totalPrice">₺0</div>
+            </div>
+
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="cardName">Kart Üzerindeki İsim *</label>
+                    <input type="text" id="cardName" name="cardName" required placeholder="Ahmet Yılmaz">
+                </div>
+
+                <div class="form-group">
+                    <label for="cardNumber">Kart Numarası *</label>
+                    <input type="text" id="cardNumber" name="cardNumber" required placeholder="4508 0345 0803 4509" maxlength="19">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiryMonth">Son Kullanma Tarihi *</label>
+                        <select id="expiryMonth" name="expiryMonth" required>
+                            <option value="">Ay</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiryYear">Yıl *</label>
+                        <select id="expiryYear" name="expiryYear" required>
+                            <option value="">Yıl</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV *</label>
+                        <input type="text" id="cvv" name="cvv" required placeholder="123" maxlength="3" pattern="[0-9]{3}">
+                    </div>
+                </div>
+
+                <div class="agreement-group">
+                    <label>
+                        <input type="checkbox" id="agreeMesafeliSatis" name="agree_mesafeli_satis" required>
+                        <span><a href="mesafeli-satis-sozlesmesi.html" target="_blank" rel="noopener">Mesafeli Satış Sözleşmesi</a>'ni okudum, sipariş ve ödeme koşullarını kabul ediyorum. *</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Ödemeyi Tamamla</button>
+            </form>
+
+            <div class="loading active" id="loading">
+                <p>Ödeme işleminiz hazırlanıyor...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sepet bilgilerini yükle
+        function loadCartInfo() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsList = document.getElementById('cartItemsList');
+            const totalPrice = document.getElementById('totalPrice');
+            
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '<p>Sepetiniz boş. Lütfen önce ürün ekleyin.</p>';
+                totalPrice.textContent = '₺0';
+                document.getElementById('paymentForm').style.display = 'none';
+                return;
+            }
+            
+            let total = 0;
+            let itemsHtml = '<ul style="list-style: none; padding: 0; margin: 15px 0;">';
+            
+            cart.forEach(item => {
+                const itemPrice = parseFloat(item.price) || 0;
+                total += itemPrice;
+                itemsHtml += `
+                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(44, 70, 10, 0.1);">
+                        <strong>${item.name || 'Ürün'}</strong>
+                        <span style="float: right;">${item.priceText || '₺' + itemPrice.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+                    </li>
+                `;
+            });
+            
+            itemsHtml += '</ul>';
+            cartItemsList.innerHTML = itemsHtml;
+            totalPrice.textContent = `₺${total.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
+        }
+
+        // Yıl seçeneklerini oluştur
+        function populateYears() {
+            const yearSelect = document.getElementById('expiryYear');
+            const currentYear = new Date().getFullYear();
+            for (let i = 0; i < 15; i++) {
+                const year = currentYear + i;
+                const option = document.createElement('option');
+                option.value = year.toString().substr(-2);
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+        }
+
+        // Kart numarası formatla
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+
+        // Form gönderimi
+        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Hata mesajını gizle
+            errorMessage.classList.remove('active');
+
+            // Butonu devre dışı bırak
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'İşleniyor...';
+            loading.classList.add('active');
+
+            // Sepet verilerini al
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (cart.length === 0) {
+                errorMessage.textContent = 'Sepetiniz boş. Lütfen önce ürün ekleyin.';
+                errorMessage.classList.add('active');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Ödemeyi Tamamla';
+                loading.classList.remove('active');
+                return;
+            }
+
+            if (!document.getElementById('agreeMesafeliSatis').checked) {
+                errorMessage.textContent = 'Lütfen Mesafeli Satış Sözleşmesi\'ni okuyup kabul ediniz.';
+                errorMessage.classList.add('active');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Ödemeyi Tamamla';
+                loading.classList.remove('active');
+                return;
+            }
+            
+            // Form verilerini al
+            const formData = {
+                cart: cart,
+                cardName: document.getElementById('cardName').value,
+                cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
+                expiryMonth: document.getElementById('expiryMonth').value,
+                expiryYear: document.getElementById('expiryYear').value,
+                cvv: document.getElementById('cvv').value
+            };
+
+            try {
+                // Ödeme endpoint'ine istek gönder
+                const response = await fetch('odeme.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Ödeme başarılı - sepeti temizle
+                    localStorage.removeItem('cart');
+                    
+                    // Başarılı mesajı göster
+                    alert('Ödeme başarılı! Siparişiniz oluşturuldu. Yönlendiriliyorsunuz...');
+                    window.location.href = 'kullanici-panel.html';
+                } else {
+                    // Hata mesajı göster
+                    errorMessage.textContent = result.message || 'Ödeme işlemi başarısız. Lütfen tekrar deneyin.';
+                    errorMessage.classList.add('active');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Ödemeyi Tamamla';
+                    loading.classList.remove('active');
+                }
+            } catch (error) {
+                console.error('Ödeme hatası:', error);
+                errorMessage.textContent = 'Bir hata oluştu. Lütfen tekrar deneyin.';
+                errorMessage.classList.add('active');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Ödemeyi Tamamla';
+                loading.classList.remove('active');
+            }
+        });
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCartInfo();
+            populateYears();
+            document.getElementById('loading').classList.remove('active');
+        });
+    </script>
+    <footer style="text-align: center; padding: 24px 20px; color: rgba(245,241,232,0.7); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px;">
+        <p>&copy; 2025 Norogastro. Tüm hakları saklıdır.</p>
+        <p style="margin-top: 10px;">
+            <a href="kvkk.html" style="color: rgba(245,241,232,0.8); margin: 0 8px;">KVKK</a>
+            <a href="uyelik-sozlesmesi.html" style="color: rgba(245,241,232,0.8); margin: 0 8px;">Üyelik Sözleşmesi</a>
+            <a href="mesafeli-satis-sozlesmesi.html" style="color: rgba(245,241,232,0.8); margin: 0 8px;">Mesafeli Satış</a>
+            <a href="cerez-politikasi.html" style="color: rgba(245,241,232,0.8); margin: 0 8px;">Çerez Politikası</a>
+        </p>
+    </footer>
+</body>
+</html>

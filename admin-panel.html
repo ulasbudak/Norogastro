@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli - Norogastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #2c460a, #4A5230);
+            color: #2b2b2b;
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 241, 232, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0 24px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .top-nav .brand img.logo {
+            height: 50px;
+        }
+
+        .top-nav .menu {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .top-nav .menu a {
+            color: #2c460a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .top-nav .menu a:hover {
+            color: #4A5230;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: rgba(245, 241, 232, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #f5f1e8;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: rgba(245, 241, 232, 0.2);
+            color: #f5f1e8;
+        }
+
+        .tab-btn:hover {
+            background: rgba(245, 241, 232, 0.15);
+        }
+
+        /* Section */
+        .section {
+            background: rgba(245, 241, 232, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(245, 241, 232, 0.2);
+            margin-bottom: 30px;
+            color: #f5f1e8;
+        }
+
+        .section h2 {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #f5f1e8;
+        }
+
+        /* Order Status Filter */
+        .order-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: rgba(245, 241, 232, 0.2);
+            border: 1px solid rgba(245, 241, 232, 0.3);
+            color: #f5f1e8;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: rgba(245, 241, 232, 0.3);
+            border-color: #f5f1e8;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.2);
+        }
+
+        .data-table th {
+            background: rgba(245, 241, 232, 0.1);
+            font-weight: 600;
+            color: #f5f1e8;
+        }
+
+        .data-table td {
+            color: #f5f1e8;
+        }
+
+        .data-table tr:hover {
+            background: rgba(245, 241, 232, 0.05);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(40, 167, 69, 0.3);
+            color: #90ee90;
+        }
+
+        .status-inactive {
+            background: rgba(220, 53, 69, 0.3);
+            color: #ffcccc;
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.3);
+            color: #ffd700;
+        }
+
+        /* Action Button */
+        .action-btn {
+            padding: 6px 12px;
+            background: rgba(245, 241, 232, 0.2);
+            border: 1px solid rgba(245, 241, 232, 0.3);
+            color: #f5f1e8;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(245, 241, 232, 0.3);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #f5f1e8;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #f5f1e8;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .data-table {
+                font-size: 0.9rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 8px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="brand">
+            <a href="index.html"><img src="LOGO.png" alt="Norogastro" class="logo"></a>
+        </div>
+        <div class="menu">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="logout.php">Çıkış Yap</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="section">
+            <h1 style="font-family: 'Noto Serif Display', serif; font-size: 2.5rem; margin-bottom: 20px; color: #f5f1e8;">Admin Paneli</h1>
+            
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('users')">Kullanıcılar</button>
+                <button class="tab-btn" onclick="showTab('orders')">Siparişler</button>
+            </div>
+
+            <!-- Kullanıcılar Tab -->
+            <div id="users-tab" class="tab-content">
+                <h2>Tüm Kullanıcılar</h2>
+                <div id="users-loading" class="loading">Yükleniyor...</div>
+                <table class="data-table" id="users-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>E-posta</th>
+                            <th>Ad</th>
+                            <th>Telefon</th>
+                            <th>Şirket</th>
+                            <th>Plan</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>Son Giriş</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                    </tbody>
+                </table>
+                <div id="users-empty" class="empty-state" style="display: none;">Kullanıcı bulunamadı.</div>
+            </div>
+
+            <!-- Siparişler Tab -->
+            <div id="orders-tab" class="tab-content" style="display: none;">
+                <h2>Tüm Siparişler</h2>
+                <div class="order-filter">
+                    <button class="filter-btn active" onclick="filterOrders(null)">Tümü</button>
+                    <button class="filter-btn" onclick="filterOrders('active')">Aktif</button>
+                    <button class="filter-btn" onclick="filterOrders('inactive')">Pasif</button>
+                </div>
+                <div id="orders-loading" class="loading">Yükleniyor...</div>
+                <table class="data-table" id="orders-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Sipariş No</th>
+                            <th>Kullanıcı</th>
+                            <th>E-posta</th>
+                            <th>Ürünler</th>
+                            <th>Tutar</th>
+                            <th>Ödeme Durumu</th>
+                            <th>Sipariş Durumu</th>
+                            <th>Tarih</th>
+                            <th>İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                    </tbody>
+                </table>
+                <div id="orders-empty" class="empty-state" style="display: none;">Sipariş bulunamadı.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentOrderFilter = null;
+
+        // Tab değiştirme
+        function showTab(tabName) {
+            // Tüm tab içeriklerini gizle
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Tüm tab butonlarını pasif yap
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Seçilen tab'ı göster
+            document.getElementById(tabName + '-tab').style.display = 'block';
+            event.target.classList.add('active');
+            
+            // İlgili veriyi yükle
+            if (tabName === 'users') {
+                loadUsers();
+            } else if (tabName === 'orders') {
+                loadOrders(currentOrderFilter);
+            }
+        }
+
+        // Kullanıcıları yükle
+        async function loadUsers() {
+            const loading = document.getElementById('users-loading');
+            const table = document.getElementById('users-table');
+            const tbody = document.getElementById('users-tbody');
+            const empty = document.getElementById('users-empty');
+            
+            try {
+                const response = await fetch('get-all-users.php');
+                const data = await response.json();
+                
+                loading.style.display = 'none';
+                
+                if (data.success && data.users.length > 0) {
+                    table.style.display = 'table';
+                    empty.style.display = 'none';
+                    
+                    tbody.innerHTML = data.users.map(user => `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.email || '-'}</td>
+                            <td>${user.name || '-'}</td>
+                            <td>${user.phone || '-'}</td>
+                            <td>${user.company || '-'}</td>
+                            <td>${user.plan || '-'}</td>
+                            <td>${user.created_at ? new Date(user.created_at).toLocaleDateString('tr-TR') : '-'}</td>
+                            <td>${user.last_login ? new Date(user.last_login).toLocaleDateString('tr-TR') : '-'}</td>
+                            <td><span class="status-badge ${user.is_active == 1 ? 'status-active' : 'status-inactive'}">${user.is_active == 1 ? 'Aktif' : 'Pasif'}</span></td>
+                        </tr>
+                    `).join('');
+                } else {
+                    table.style.display = 'none';
+                    empty.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Kullanıcı yükleme hatası:', error);
+                loading.textContent = 'Bir hata oluştu.';
+            }
+        }
+
+        // Siparişleri yükle
+        async function loadOrders(status = null) {
+            const loading = document.getElementById('orders-loading');
+            const table = document.getElementById('orders-table');
+            const tbody = document.getElementById('orders-tbody');
+            const empty = document.getElementById('orders-empty');
+            
+            try {
+                const url = status ? `get-all-orders.php?status=${status}` : 'get-all-orders.php';
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                loading.style.display = 'none';
+                
+                if (data.success && data.orders.length > 0) {
+                    table.style.display = 'table';
+                    empty.style.display = 'none';
+                    
+                    tbody.innerHTML = data.orders.map(order => {
+                        const items = Array.isArray(order.items) ? order.items : [];
+                        const itemsText = items.map(item => item.name || item.id).join(', ') || '-';
+                        const orderStatus = order.order_status || 'pending';
+                        const statusClass = orderStatus === 'active' ? 'status-active' : 
+                                          orderStatus === 'inactive' ? 'status-inactive' : 'status-pending';
+                        const statusText = orderStatus === 'active' ? 'Aktif' : 
+                                         orderStatus === 'inactive' ? 'Pasif' : 'Beklemede';
+                        const toggleText = orderStatus === 'active' ? 'Pasif Yap' : 'Aktif Yap';
+                        const newStatus = orderStatus === 'active' ? 'inactive' : 'active';
+                        
+                        return `
+                            <tr>
+                                <td>${order.order_number || '-'}</td>
+                                <td>${order.name || '-'}</td>
+                                <td>${order.email || '-'}</td>
+                                <td>${itemsText}</td>
+                                <td>₺${parseFloat(order.total_amount || 0).toFixed(2)}</td>
+                                <td><span class="status-badge ${order.payment_status === 'paid' ? 'status-active' : 'status-pending'}">${order.payment_status === 'paid' ? 'Ödendi' : 'Beklemede'}</span></td>
+                                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                                <td>${order.created_at ? new Date(order.created_at).toLocaleDateString('tr-TR') : '-'}</td>
+                                <td>
+                                    <button class="action-btn" onclick="toggleOrderStatus(${order.id}, '${newStatus}')">${toggleText}</button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    table.style.display = 'none';
+                    empty.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Sipariş yükleme hatası:', error);
+                loading.textContent = 'Bir hata oluştu.';
+            }
+        }
+
+        // Sipariş filtreleme
+        function filterOrders(status) {
+            currentOrderFilter = status;
+            
+            // Filter butonlarını güncelle
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Siparişleri yeniden yükle
+            loadOrders(status);
+        }
+
+        // Sipariş durumunu değiştir
+        async function toggleOrderStatus(orderId, newStatus) {
+            if (!confirm('Sipariş durumunu değiştirmek istediğinize emin misiniz?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('update-order-status.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        order_status: newStatus
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Siparişleri yeniden yükle
+                    loadOrders(currentOrderFilter);
+                } else {
+                    alert('Sipariş durumu güncellenemedi: ' + (data.message || 'Bilinmeyen hata'));
+                }
+            } catch (error) {
+                console.error('Sipariş durumu güncelleme hatası:', error);
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        }
+
+        // Sayfa yüklendiğinde kullanıcıları yükle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Admin kontrolü
+            fetch('user-info.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success || !data.user || !data.user.is_admin) {
+                        window.location.href = 'admin-giris.html';
+                    } else {
+                        loadUsers();
+                    }
+                })
+                .catch(error => {
+                    console.error('Admin kontrolü hatası:', error);
+                    window.location.href = 'admin-giris.html';
+                });
+        });
+    </script>
+</body>
+</html>
