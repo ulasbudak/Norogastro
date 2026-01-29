@@ -760,7 +760,7 @@
             <h1>Şimdi Başlayın: Nörogastronomi Danışmanlığı</h1>
             <p class="subtitle">Bilimsel yaklaşımla gastronomi deneyimini dönüştür</p>
             <p class="price">Tek Seferlik Ödeme ile Hizmet Alın</p>
-            <a href="#plans" class="cta-button">Üyeliğe Başla</a>
+            <button type="button" class="cta-button" onclick="openRegisterModal('uyelik_basla', 'Paketleri inceleyebilirsiniz', '');">Üyeliğe Başla</button>
         </div>
     </section>
 
@@ -1007,18 +1007,10 @@
                     Danışmanlık seansları nasıl gerçekleşir?
                 </div>
                 <div class="faq-answer">
-                    Danışmanlık seanslarımız online video görüşme, telefon veya yüz yüze (Ankara merkez) olarak gerçekleşebilir. Size en uygun yöntemi birlikte belirleriz.
+                    Danışmanlık seanslarımız online video görüşme, telefon veya yüz yüze olarak gerçekleşebilir. Size en uygun yöntemi birlikte belirleriz.
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    Ücretsiz deneme süresi var mı?
-                </div>
-                <div class="faq-answer">
-                    Evet! İlk 2 ay ücretsiz deneme imkanı sunuyoruz. Bu süre içinde tüm hizmetlerimizi deneyebilir, memnun kalmazsanız ücretsiz iptal edebilirsiniz.
-                </div>
-            </div>
         </div>
     </section>
 
@@ -1164,13 +1156,16 @@
             selectedPlanValue = plan;
             document.getElementById('selectedPlan').value = plan;
             document.getElementById('selectedPlanName').textContent = planName;
-            document.getElementById('selectedPlanPrice').textContent = (plan === 'sepet' || !planPrice) ? '(ödeme sayfasında görüntülenecek)' : (planPrice + ' / aylık');
+            document.getElementById('selectedPlanPrice').textContent = (plan === 'sepet' || plan === 'uyelik_basla' || !planPrice) ? '(paketleri inceleyebilirsiniz)' : (planPrice + ' / aylık');
             document.getElementById('registerModal').classList.add('active');
         }
 
         function closeRegisterModal() {
             document.getElementById('registerModal').classList.remove('active');
             document.getElementById('registerForm').reset();
+            // Modal kapanınca paketlere kaydır
+            const plansEl = document.getElementById('plans');
+            if (plansEl) plansEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // Close modal when clicking outside
@@ -1247,7 +1242,16 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    // Ödeme sayfasına yönlendir (redirect parametresi veya plan)
+                    // "Üyeliğe Başla" ile geldiyse: modal kapat, paketlere kaydır
+                    if (selectedPlanValue === '' || selectedPlanValue === 'uyelik_basla') {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                        closeRegisterModal();
+                        const plansEl = document.getElementById('plans');
+                        if (plansEl) plansEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        return;
+                    }
+                    // Redirect veya sepete göre ödeme sayfasına
                     const urlParams = new URLSearchParams(window.location.search);
                     const redirect = urlParams.get('redirect');
                     if (redirect === 'odeme.html') {
