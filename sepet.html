@@ -518,21 +518,17 @@
             fetch('user-info.php')
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
+                    if (data.success && data.user) {
                         // Giriş yapılmış, ödeme sayfasına git
                         window.location.href = 'odeme.html';
                     } else {
-                        // Giriş yapılmamış, giriş sayfasına yönlendir
-                        if (confirm('Ödeme yapmak için giriş yapmanız gerekiyor. Giriş sayfasına yönlendirilsin mi?')) {
-                            window.location.href = 'uyelik-giris.html?redirect=odeme.html';
-                        }
+                        // Giriş yapılmamış: giriş/kayıt sayfasına yönlendir (orada "Üye Ol" da var)
+                        window.location.href = 'uyelik-giris.html?redirect=odeme.html';
                     }
                 })
                 .catch(error => {
                     console.error('Giriş kontrolü hatası:', error);
-                    if (confirm('Ödeme yapmak için giriş yapmanız gerekiyor. Giriş sayfasına yönlendirilsin mi?')) {
-                        window.location.href = 'uyelik-giris.html?redirect=odeme.html';
-                    }
+                    window.location.href = 'uyelik-giris.html?redirect=odeme.html';
                 });
         }
 

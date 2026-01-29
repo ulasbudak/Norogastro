@@ -318,7 +318,7 @@
 
             <div class="signup-link">
                 <p>Henüz üye değil misiniz?</p>
-                <a href="uyelik.html">Üyeliğe Başlayın</a>
+                <a href="uyelik.html" id="signupLink">Üyeliğe Başlayın</a>
             </div>
         </div>
     </div>
@@ -372,8 +372,10 @@
                 
                 if (result.success) {
                     alert('Giriş başarılı! Yönlendiriliyorsunuz...');
-                    // Ana sayfaya yönlendir
-                    window.location.href = 'index.html';
+                    // URL'de redirect varsa oraya, yoksa ana sayfaya
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirect = urlParams.get('redirect');
+                    window.location.href = (redirect && redirect.indexOf('..') === -1) ? redirect : 'index.html';
                 } else {
                     alert(result.message || 'Giriş başarısız. Lütfen tekrar deneyin.');
                     submitButton.disabled = false;
@@ -386,6 +388,16 @@
                 submitButton.textContent = originalText;
             }
         });
+
+        // Redirect parametresini "Üyeliğe Başlayın" linkine ekle (ödeme için kayıt sonrası geri dönebilsin)
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get('redirect');
+            const signupLink = document.getElementById('signupLink');
+            if (signupLink && redirect && redirect.indexOf('..') === -1) {
+                signupLink.href = 'uyelik.html?redirect=' + encodeURIComponent(redirect);
+            }
+        })();
 
         // Enter tuşu ile form gönderimi
         document.addEventListener('keypress', function(e) {

@@ -659,6 +659,42 @@
             color: #4A5230;
         }
 
+        .payment-register-banner {
+            background: rgba(245, 241, 232, 0.95);
+            color: #2c460a;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid rgba(44, 70, 10, 0.3);
+        }
+        .payment-register-banner p {
+            margin-bottom: 16px;
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+        .payment-register-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .payment-register-actions .cta-button {
+            margin: 0;
+        }
+        .btn-secondary-light {
+            display: inline-block;
+            padding: 12px 28px;
+            border: 2px solid #2c460a;
+            color: #2c460a;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary-light:hover {
+            background: #2c460a;
+            color: #f5f1e8;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
@@ -725,6 +761,17 @@
         </div>
     </nav>
     <!-- Eski header gizlendi; yukarıda ana menü kullanılıyor -->
+
+    <!-- Ödemeye geçmek için kayıt banner'ı (redirect=odeme & sepet doluysa göster) -->
+    <div id="paymentRegisterBanner" class="payment-register-banner" style="display: none;">
+        <div class="container">
+            <p>Sepetiniz hazır. Ödemeye geçmek için kayıt olun veya giriş yapın.</p>
+            <div class="payment-register-actions">
+                <button type="button" class="cta-button" onclick="openRegisterModal('sepet', 'Sepetiniz', '');">Üye Ol</button>
+                <a href="uyelik-giris.html?redirect=odeme.html" class="btn-secondary-light">Giriş Yap</a>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -1091,6 +1138,14 @@
                     menu.classList.toggle('open');
                 });
             }
+            // Ödemeye yönlendirme ile geldiyse ve sepet doluysa "Üye Ol" banner'ını göster
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get('redirect');
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const banner = document.getElementById('paymentRegisterBanner');
+            if (banner && redirect === 'odeme.html' && cart.length > 0) {
+                banner.style.display = 'block';
+            }
         });
         function toggleFAQ(element) {
             const answer = element.nextElementSibling;
@@ -1128,7 +1183,7 @@
             selectedPlanValue = plan;
             document.getElementById('selectedPlan').value = plan;
             document.getElementById('selectedPlanName').textContent = planName;
-            document.getElementById('selectedPlanPrice').textContent = planPrice + ' / aylık';
+            document.getElementById('selectedPlanPrice').textContent = (plan === 'sepet' || !planPrice) ? '(ödeme sayfasında görüntülenecek)' : (planPrice + ' / aylık');
             document.getElementById('registerModal').classList.add('active');
         }
 
@@ -1211,9 +1266,15 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    // Plan bilgisini URL parametresi olarak ödeme sayfasına gönder
-                    const planParam = encodeURIComponent(selectedPlanValue);
-                    window.location.href = `odeme.html?plan=${planParam}`;
+                    // Ödeme sayfasına yönlendir (redirect parametresi veya plan)
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirect = urlParams.get('redirect');
+                    if (redirect === 'odeme.html') {
+                        window.location.href = 'odeme.html';
+                    } else {
+                        const planParam = encodeURIComponent(selectedPlanValue);
+                        window.location.href = `odeme.html?plan=${planParam}`;
+                    }
                 } else {
                     alert(result.message || 'Kayıt başarısız. Lütfen tekrar deneyin.');
                     submitBtn.disabled = false;

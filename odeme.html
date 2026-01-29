@@ -464,11 +464,28 @@
             }
         });
 
+        // Sayfa açıldığında giriş kontrolü: giriş yoksa önce giriş/kayıt sayfasına yönlendir
+        function checkLoginAndLoad() {
+            fetch('user-info.php', { credentials: 'include' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.user) {
+                        loadCartInfo();
+                        populateYears();
+                    } else {
+                        window.location.href = 'uyelik-giris.html?redirect=odeme.html';
+                        return;
+                    }
+                    document.getElementById('loading').classList.remove('active');
+                })
+                .catch(function() {
+                    window.location.href = 'uyelik-giris.html?redirect=odeme.html';
+                });
+        }
+
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
-            loadCartInfo();
-            populateYears();
-            document.getElementById('loading').classList.remove('active');
+            checkLoginAndLoad();
         });
     </script>
     <footer style="text-align: center; padding: 24px 20px; color: rgba(245,241,232,0.7); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px;">
